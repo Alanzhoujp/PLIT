@@ -1,0 +1,2345 @@
+//Author: Alan Zhou. Date of Creation: 05/08/2023 - 07/08/2023, 10/08/2023 - 13/08/2023
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URL;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
+public class PLIT extends MouseAdapter implements ActionListener {
+  public static void main(String[] args) throws UnsupportedAudioFileException, IOException, LineUnavailableException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+    new PLIT();
+  }
+  AudioInputStream czerwoneJagodyAIS, tarantellaNapoletanaAIS, EU_AIS;
+  AudioInputStream[] IT_AIS_A, PL_AIS_A, IT_AIS_B, PL_AIS_B;
+  ButtonGroup styleRadioButtonGroup;
+  Clip czerwoneJagodyClip, tarantellaNapoletanaClip, EU_clip;
+  Clip[] IT_clip_A, PL_clip_A, IT_clip_B, PL_clip_B;
+  Color mainColor, IT_color_A, PL_color_A, IT_color_B, PL_color_B, gold;
+  Font comboBoxFont, mainPageFont, pageDefaultFont_A, pageDefaultFont_B, pageDefaultFont_B_19, pageDefaultFont_B_17, pageDefaultFont_B_15, radioButtonFont, settingsFont;
+  ImageIcon mainFrameIcon;
+  ImageIcon[] homePageButtonImage;
+  JButton homePageButton_A, homePageButton_B, settingsHomePageButton;
+  JButton[] mainPageButton;
+  JComboBox < String > pageNo_A, pageNo_B;
+  JFrame mainFrame;
+  JLabel SALVE, WITAJ;
+  JLabel[] flag, PL_wyraz_A, IT_espr_A, PL_wyraz_B, IT_espr_B, settingsLabel;
+  JMenu[] menu;
+  JMenuBar pageMenuBar_A, pageMenuBar_B, settingsMenuBar;
+  JMenuItem[] menuItem;
+  JPanel mainPage, settings;
+  JPanel[] page_A, page_B;
+  JRadioButton[] styleRadioButton;
+  URL czerwoneJagodyURL, tarantellaNapoletanaURL, EU_URL;
+  URL[] IT_URL_A, PL_URL_A, IT_URL_B, PL_URL_B;
+  PLIT() throws UnsupportedAudioFileException, IOException, LineUnavailableException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+    mainFrame = new JFrame();
+    mainPageFont = new Font("Times New Roman", Font.BOLD, 22);
+    mainPage = new JPanel();
+    mainPage.setLayout(null);
+    WITAJ = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("WITAJ!ANIMATED.gif")));
+    SALVE = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("SALVE_ANIMATED2.gif")));
+    WITAJ.setBounds(0, 0, 550, 1000);
+    SALVE.setBounds(900, 0, 530, 1000);
+    mainPage.add(WITAJ);
+    mainPage.add(SALVE);
+    mainColor = new Color(0,51,153);
+    mainPageButton = new JButton[4];
+    mainPageButton[0] = new JButton("<html>ZACZYNAJ POZIOM A1-A2 /<br> INIZIARE IL LIVELLO A1-A2<html>");
+    mainPageButton[1] = new JButton("<html>ZACZYNAJ POZIOM A2-B1 /<br> INIZIARE IL LIVELLO A2-B1<html>");
+    mainPageButton[2] = new JButton("USTAWIENIA / IMPOSTAZIONI");
+    mainPageButton[3] = new JButton("<html>WYJDŹ Z PROGRAMU /<br> USCIRE DAL PROGRAMMA<html>");
+    mainPageButton[0].setLocation(400, 140);
+    mainPageButton[1].setLocation(400, 290);
+    mainPageButton[2].setLocation(400, 440);
+    mainPageButton[3].setLocation(400, 590);
+    for (int i = 0; i < 4; i++) {
+      mainPageButton[i].addActionListener(this);
+      mainPageButton[i].setFocusable(false);
+      mainPageButton[i].setFont(mainPageFont);
+      mainPageButton[i].setForeground(mainColor);
+      mainPageButton[i].setSize(500, 60);
+      mainPage.add(mainPageButton[i]);
+    }
+    settings = new JPanel();
+    settings.setLayout(null);
+    settingsFont = new Font("Comic Sans MS", Font.BOLD, 24);
+    settingsLabel = new JLabel[10];
+    settingsLabel[0] = new JLabel("STYL PROGRAMU / LO STILE DEL PROGRAMMA");
+    settingsLabel[0].setBounds(10, 10, 1000, 30);
+    settingsLabel[0].setFont(settingsFont);
+    settings.add(settingsLabel[0]);
+    radioButtonFont = new Font("Calibri", Font.BOLD, 22);
+    styleRadioButton = new JRadioButton[5];
+    styleRadioButton[0] = new JRadioButton("METAL");
+    styleRadioButton[1] = new JRadioButton("MOTIF");
+    styleRadioButton[2] = new JRadioButton("NIMBUS");
+    styleRadioButton[3] = new JRadioButton("WINDOWS");
+    styleRadioButton[4] = new JRadioButton("WINDOWS CLASSIC");
+    styleRadioButton[0].setBounds(100, 70, 100, 30);
+    styleRadioButton[1].setBounds(300, 70, 100, 30);
+    styleRadioButton[2].setBounds(500, 70, 150, 30);
+    styleRadioButton[3].setBounds(700, 70, 200, 30);
+    styleRadioButton[4].setBounds(900, 70, 300, 30);
+    styleRadioButton[0].setSelected(true);
+    styleRadioButtonGroup = new ButtonGroup();
+    for (int i = 0; i < 5; i++) {
+      styleRadioButton[i].addActionListener(this);
+      styleRadioButton[i].setFocusable(false);
+      styleRadioButton[i].setFont(radioButtonFont);
+      settings.add(styleRadioButton[i]);
+      styleRadioButtonGroup.add(styleRadioButton[i]);
+    }
+    pageDefaultFont_A = new Font("Arial", Font.BOLD, 23);
+    page_A = new JPanel[100];
+    for (int i = 1; i < 100; i++) {
+      page_A[i] = new JPanel();
+      page_A[i].setLayout(null);
+    }
+    pageDefaultFont_B = new Font("Verdana", Font.BOLD, 22);
+    pageDefaultFont_B_19 = new Font("Verdana", Font.BOLD, 19);
+    pageDefaultFont_B_17 = new Font("Verdana", Font.BOLD, 17);
+    pageDefaultFont_B_15 = new Font("Verdana", Font.BOLD, 15);
+    page_B = new JPanel[100];
+    for (int i = 1; i < 100; i++) {
+      page_B[i] = new JPanel();
+      page_B[i].setLayout(null);
+    }
+    IT_color_A = new Color(0, 134, 60);
+    PL_color_A = new Color(253, 90, 200);
+    IT_color_B = new Color(0, 154, 90);
+    PL_color_B = new Color(253, 64, 196);
+    gold = new Color(245, 223, 78);
+    PLIT_WYRAZESPRESSIONE_A();
+    PLIT_WYRAZESPRESSIONE_B();
+    flag = new JLabel[3];
+    flag[0] = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("EU_Flag.png")));
+    flag[1] = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("Flag_of_Italy.png")));
+    flag[2] = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("Flag_of_Poland.png")));
+    flag[0].setLocation(600, 20);
+    flag[1].setLocation(800, 20);
+    flag[2].setLocation(400, 20);
+    for (int i = 0; i < 3; i++) {
+      flag[i].addMouseListener(this);
+      flag[i].setSize(100, 67);
+      mainPage.add(flag[i]);
+    }
+    czerwoneJagodyURL = getClass().getResource("Czerwone Jagody.wav");
+    czerwoneJagodyAIS = AudioSystem.getAudioInputStream(czerwoneJagodyURL);
+    czerwoneJagodyClip = AudioSystem.getClip();
+    czerwoneJagodyClip.open(czerwoneJagodyAIS);
+    tarantellaNapoletanaURL = getClass().getResource("Tarantella Napoletana.wav");
+    tarantellaNapoletanaAIS = AudioSystem.getAudioInputStream(tarantellaNapoletanaURL);
+    tarantellaNapoletanaClip = AudioSystem.getClip();
+    tarantellaNapoletanaClip.open(tarantellaNapoletanaAIS);
+    EU_URL = getClass().getResource("European Union Anthem Instrumental _Ode To Joy.wav");
+    EU_AIS = AudioSystem.getAudioInputStream(EU_URL);
+    EU_clip = AudioSystem.getClip();
+    EU_clip.open(EU_AIS);
+    pageMenuBar_A = new JMenuBar();
+    pageMenuBar_A.setLayout(new FlowLayout(FlowLayout.LEFT));
+    pageMenuBar_B = new JMenuBar();
+    pageMenuBar_B.setLayout(new FlowLayout(FlowLayout.LEFT));
+    homePageButtonImage = new ImageIcon[2];
+    homePageButtonImage[0] = new ImageIcon(getClass().getClassLoader().getResource("HomePage.jpg"));
+    homePageButtonImage[1] = new ImageIcon(getClass().getClassLoader().getResource("HomePageGray.jpg"));
+    homePageButton_A = new JButton(homePageButtonImage[0]);
+    homePageButton_A.addActionListener(this);
+    homePageButton_A.addMouseListener(this);
+    homePageButton_B = new JButton(homePageButtonImage[0]);
+    homePageButton_B.addActionListener(this);
+    homePageButton_B.addMouseListener(this);
+    settingsHomePageButton = new JButton(homePageButtonImage[0]);
+    settingsHomePageButton.addActionListener(this);
+    settingsHomePageButton.addMouseListener(this);
+    pageNo();
+    pageMenuBar_A.add(homePageButton_A);
+    pageMenuBar_A.add(pageNo_A);
+    pageMenuBar_B.add(homePageButton_B);
+    pageMenuBar_B.add(pageNo_B);
+    settingsMenuBar = new JMenuBar();
+    settingsMenuBar.setLayout(new FlowLayout(FlowLayout.LEFT));
+    settingsMenuBar.add(settingsHomePageButton);
+    mainFrameIcon = new ImageIcon(getClass().getClassLoader().getResource("Pl_It_flagi_polacy_we_wloszech.png"));
+    mainFrame.add(mainPage);
+    mainFrame.setAlwaysOnTop(true);
+    mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+    mainFrame.setIconImage(mainFrameIcon.getImage());
+    mainFrame.setTitle("POLSKI-WŁOSKI / ITALIANO-POLACCO");
+    mainFrame.setVisible(true);
+  }
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    if (e.getSource() == mainPageButton[0]) {
+      mainFrame.remove(mainPage);
+      mainFrame.add(page_A[1]);
+      mainFrame.add(pageMenuBar_A, BorderLayout.NORTH);
+      mainFrame.revalidate();
+      mainFrame.repaint();
+      pageNo_A.setSelectedIndex(1);
+    }
+    if (e.getSource() == mainPageButton[1]) {
+      mainFrame.remove(mainPage);
+      mainFrame.add(page_B[1]);
+      mainFrame.add(pageMenuBar_B, BorderLayout.NORTH);
+      mainFrame.revalidate();
+      mainFrame.repaint();
+      pageNo_B.setSelectedIndex(1);
+    }
+    if (e.getSource() == mainPageButton[2]) {
+      mainFrame.remove(mainPage);
+      mainFrame.add(settings);
+      mainFrame.add(settingsMenuBar, BorderLayout.NORTH);
+      mainFrame.revalidate();
+      mainFrame.repaint();
+    }
+    if (e.getSource() == mainPageButton[3]) {
+      System.exit(0);
+    }
+    if (e.getSource() == homePageButton_A && mainPage.getParent() == null) {
+      mainFrame.remove(pageMenuBar_A);
+      for (int i = 1; i <= 99; i++) {
+        mainFrame.remove(page_A[i]);
+      }
+      mainFrame.add(mainPage);
+      mainFrame.revalidate();
+      mainFrame.repaint();
+    }
+    if (e.getSource() == homePageButton_B && mainPage.getParent() == null) {
+      mainFrame.remove(pageMenuBar_B);
+      for (int i = 1; i <= 99; i++) {
+        mainFrame.remove(page_B[i]);
+      }
+      mainFrame.add(mainPage);
+      mainFrame.revalidate();
+      mainFrame.repaint();
+    }
+    if (e.getSource() == settingsHomePageButton && mainPage.getParent() == null) {
+      mainFrame.remove(settingsMenuBar);
+      mainFrame.remove(settings);
+      mainFrame.add(mainPage);
+      mainFrame.revalidate();
+      mainFrame.repaint();
+    }
+    if (styleRadioButton[0].isSelected() && (!styleRadioButton[1].isSelected() && !styleRadioButton[2].isSelected() && !styleRadioButton[3].isSelected()) && !styleRadioButton[4].isSelected()) {
+      try {
+        UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+      } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
+        UnsupportedLookAndFeelException e1) {
+        e1.printStackTrace();
+      }
+      swingUtilitiesUpdateComponentTreeUI();
+    }
+    if (styleRadioButton[1].isSelected() && (!styleRadioButton[0].isSelected() && !styleRadioButton[2].isSelected() && !styleRadioButton[3].isSelected()) && !styleRadioButton[4].isSelected()) {
+      try {
+        UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+      } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
+        UnsupportedLookAndFeelException e1) {
+        e1.printStackTrace();
+      }
+      swingUtilitiesUpdateComponentTreeUI();
+    }
+    if (styleRadioButton[2].isSelected() && (!styleRadioButton[0].isSelected() && !styleRadioButton[1].isSelected() && !styleRadioButton[3].isSelected()) && !styleRadioButton[4].isSelected()) {
+      try {
+        UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+      } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
+        UnsupportedLookAndFeelException e1) {
+        e1.printStackTrace();
+      }
+      swingUtilitiesUpdateComponentTreeUI();
+    }
+    if (styleRadioButton[3].isSelected() && (!styleRadioButton[0].isSelected() && !styleRadioButton[1].isSelected() && !styleRadioButton[2].isSelected()) && !styleRadioButton[4].isSelected()) {
+      try {
+        UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+      } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
+        UnsupportedLookAndFeelException e1) {
+        e1.printStackTrace();
+      }
+      swingUtilitiesUpdateComponentTreeUI();
+    }
+    if (styleRadioButton[4].isSelected() && (!styleRadioButton[0].isSelected() && !styleRadioButton[1].isSelected() && !styleRadioButton[2].isSelected()) && !styleRadioButton[3].isSelected()) {
+      try {
+        UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel");
+      } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
+        UnsupportedLookAndFeelException e1) {
+        e1.printStackTrace();
+      }
+      swingUtilitiesUpdateComponentTreeUI();
+    }
+  }
+  @Override
+  public void mouseEntered(MouseEvent e) {
+	  if(e.getSource()==flag[0]) {
+		  EU_clip.setMicrosecondPosition(0);
+		  EU_clip.start();
+	  }
+	  if(e.getSource()==flag[1]) {			  
+		  tarantellaNapoletanaClip.setMicrosecondPosition(0);
+		  tarantellaNapoletanaClip.start();  
+	  }
+	  if(e.getSource()==flag[2]) {
+		  czerwoneJagodyClip.setMicrosecondPosition(0);
+		  czerwoneJagodyClip.start();
+	  }
+	  for(int i=0;i<3;i++) {
+		  if(e.getSource()==flag[i]) {
+			  mainFrame.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+		  }
+	  }
+    for (int i = 1; i <= 116; i++) {
+      if (e.getSource() == PL_wyraz_A[i]) {
+    	PL_wyraz_A[i].setBackground(gold);
+        PL_wyraz_A[i].setBorder(BorderFactory.createLoweredSoftBevelBorder());       
+        PL_clip_A[i].setMicrosecondPosition(0);
+        PL_clip_A[i].start();
+      }
+      if (e.getSource() == IT_espr_A[i]) {
+    	IT_espr_A[i].setBackground(gold);
+        IT_espr_A[i].setBorder(BorderFactory.createLoweredSoftBevelBorder());
+        IT_clip_A[i].setMicrosecondPosition(0);
+        IT_clip_A[i].start();      
+      }
+    }
+    for (int i = 1; i <= 180; i++) {
+      if (e.getSource() == PL_wyraz_B[i]) {
+    	PL_wyraz_B[i].setBackground(gold);
+        PL_wyraz_B[i].setBorder(BorderFactory.createLoweredBevelBorder());
+        PL_clip_B[i].setMicrosecondPosition(0);
+        PL_clip_B[i].start();
+      }
+      if (e.getSource() == IT_espr_B[i]) {
+    	IT_espr_B[i].setBackground(gold);
+        IT_espr_B[i].setBorder(BorderFactory.createLoweredBevelBorder());
+        IT_clip_B[i].start();
+        IT_clip_B[i].setMicrosecondPosition(0);
+      }
+    }
+  }
+  public void mouseExited(MouseEvent e) {
+	  if(e.getSource()==flag[0]) {	  
+		  EU_clip.stop();
+	  }
+	  if(e.getSource()==flag[1]) {	  
+		  tarantellaNapoletanaClip.stop();
+	  }
+	  if(e.getSource()==flag[2]) {	  
+		  czerwoneJagodyClip.stop();
+	  }
+	  for(int i=0;i<3;i++) {
+		  if(e.getSource()==flag[i]) {
+			  mainFrame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		  }
+	  }
+    for (int i = 1; i <= 116; i++) {
+      if (e.getSource() == PL_wyraz_A[i]) {
+    	PL_wyraz_A[i].setBackground(null);
+        PL_wyraz_A[i].setBorder(BorderFactory.createRaisedSoftBevelBorder());
+        PL_clip_A[i].stop();
+      }
+      if (e.getSource() == IT_espr_A[i]) {
+    	IT_espr_A[i].setBackground(null);
+        IT_espr_A[i].setBorder(BorderFactory.createRaisedSoftBevelBorder());       
+        IT_clip_A[i].stop();
+      }
+    }
+    for (int i = 1; i <= 180; i++) {
+      if (e.getSource() == PL_wyraz_B[i]) {
+    	PL_wyraz_B[i].setBackground(null);
+        PL_wyraz_B[i].setBorder(BorderFactory.createRaisedBevelBorder());      
+        PL_clip_B[i].stop();
+      }
+      if (e.getSource() == IT_espr_B[i]) {
+        IT_espr_B[i].setBackground(null);
+        IT_espr_B[i].setBorder(BorderFactory.createRaisedBevelBorder());      
+        IT_clip_B[i].stop();
+      }
+    }
+  }
+  public void PLIT_WYRAZESPRESSIONE_A() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    PL_wyraz_A = new JLabel[1000];
+    IT_espr_A = new JLabel[1000];
+    PL_URL_A = new URL[1000];
+    IT_URL_A = new URL[1000];
+    PL_AIS_A = new AudioInputStream[1000];
+    IT_AIS_A = new AudioInputStream[1000];
+    PL_clip_A = new Clip[1000];
+    IT_clip_A = new Clip[1000];
+    //Podstawowe zwroty i wyrażenia
+    PL_wyraz_A[1] = new JLabel("dzień dobry! (rano)");
+    PL_wyraz_A[2] = new JLabel("dzień dobry! (po południu)");
+    PL_wyraz_A[3] = new JLabel("dobry wieczór!");
+    PL_wyraz_A[4] = new JLabel("cześć (powitanie i pożegnanie)");
+    PL_wyraz_A[5] = new JLabel("witaj");
+    PL_wyraz_A[6] = new JLabel("dobranoc");
+    PL_wyraz_A[7] = new JLabel("do widzenia, do zobaczenia");
+    PL_wyraz_A[8] = new JLabel("do widzenia (forma grzecznościowa)");
+    PL_wyraz_A[9] = new JLabel("miłego dnia");
+    PL_wyraz_A[10] = new JLabel("tobie również życzę miłego dnia");
+    PL_wyraz_A[11] = new JLabel("na razie");
+    PL_wyraz_A[12] = new JLabel("do zobaczenia wkrótce");
+    PL_wyraz_A[13] = new JLabel("proszę (podając coś)");
+    PL_wyraz_A[14] = new JLabel("dziękuję");
+    PL_wyraz_A[15] = new JLabel("proszę (prosząc o coś)");
+    PL_wyraz_A[16] = new JLabel("proszę bardzo");
+    PL_wyraz_A[17] = new JLabel("nie ma za co");
+    PL_wyraz_A[18] = new JLabel("przepraszam (np. zaczepiając osobę nieznajomą)");
+    PL_wyraz_A[19] = new JLabel("dziękuję bardzo");
+    PL_wyraz_A[20] = new JLabel("przepraszam");
+    PL_wyraz_A[21] = new JLabel("przykro mi");
+    PL_wyraz_A[22] = new JLabel("<html>nic nie szkodzi, nie ma problemu (odpowiedź na czyjeś przeprosiny)<html>");
+    PL_wyraz_A[23] = new JLabel("tak, poproszę (o coś)");
+    PL_wyraz_A[24] = new JLabel("na zdrowie (toast)");
+    PL_wyraz_A[25] = new JLabel("smacznego");
+    PL_wyraz_A[26] = new JLabel("na zdrowie (po kichnięciu)");
+    PL_wyraz_A[27] = new JLabel("zgadzam się, dobrze");
+    PL_wyraz_A[28] = new JLabel("z przyjemnością");
+    PL_wyraz_A[29] = new JLabel("serdeczne pozdrowienia");
+    PL_wyraz_A[30] = new JLabel("serdecznie pozdrawiam");
+    PL_wyraz_A[31] = new JLabel("witamy serdecznie");
+    PL_wyraz_A[32] = new JLabel("kto");
+    PL_wyraz_A[33] = new JLabel("co");
+    PL_wyraz_A[34] = new JLabel("ile");
+    PL_wyraz_A[35] = new JLabel("jak dużo");
+    PL_wyraz_A[36] = new JLabel("jak");
+    PL_wyraz_A[37] = new JLabel("gdzie");
+    PL_wyraz_A[38] = new JLabel("kiedy");
+    PL_wyraz_A[39] = new JLabel("dlaczego");
+    PL_wyraz_A[40] = new JLabel("który, jaki");
+    PL_wyraz_A[41] = new JLabel("Piotr jest teraz w domu?");
+    PL_wyraz_A[42] = new JLabel("Twój nowy samochód jest czarny?");
+    PL_wyraz_A[43] = new JLabel("Czy Paryż jest stolicą Francji?");
+    PL_wyraz_A[44] = new JLabel("Kto tutaj mieszka?");
+    PL_wyraz_A[45] = new JLabel("Kim jest Anna?");
+    PL_wyraz_A[46] = new JLabel("Czego chcesz?");
+    PL_wyraz_A[47] = new JLabel("Co o tym myślisz?");
+    PL_wyraz_A[48] = new JLabel("Ile kosztuje kilogram pomarańczy?");
+    PL_wyraz_A[49] = new JLabel("Ile widzisz ptaków?");
+    PL_wyraz_A[50] = new JLabel("Jak się nazywa twoja matka?");
+    PL_wyraz_A[51] = new JLabel("Jak chcesz się ubrać?");
+    PL_wyraz_A[52] = new JLabel("Gdzie można kupić sól?");
+    PL_wyraz_A[53] = new JLabel("Gdzie są moje okulary?");
+    PL_wyraz_A[54] = new JLabel("Kiedy wyjeżdżasz?");
+    PL_wyraz_A[55] = new JLabel("Kiedy są urodziny Sylwii?");
+    PL_wyraz_A[56] = new JLabel("Dlaczego mnie nie słuchasz?");
+    PL_wyraz_A[57] = new JLabel("Dlaczego Robert nie przyjdzie?");
+    PL_wyraz_A[58] = new JLabel("Który samochód jest twój?");
+    PL_wyraz_A[59] = new JLabel("Która ci się podoba?");
+    //Podstawy komunikacji i nawiązywanie znajomości
+    PL_wyraz_A[60] = new JLabel("Czy mówisz po angielsku?");
+    PL_wyraz_A[61] = new JLabel("Czy mówi pan po włosku?");
+    PL_wyraz_A[62] = new JLabel("Nie mówię dobrze po włosku.");
+    PL_wyraz_A[63] = new JLabel("Mówię po włosku tylko trochę.");
+    PL_wyraz_A[64] = new JLabel("<html>Nie mówię po włosku, ale rozumiem pojedyncze słowa.<html>");
+    PL_wyraz_A[65] = new JLabel("Mówię po angielsku.");
+    PL_wyraz_A[66] = new JLabel("Mów, proszę, powoli.");
+    PL_wyraz_A[67] = new JLabel("Możesz powtórzyć?");
+    PL_wyraz_A[68] = new JLabel("Czy mógłbyś powtórzyć?");
+    PL_wyraz_A[69] = new JLabel("Czy mogłaby pani mówić wolniej?");
+    PL_wyraz_A[70] = new JLabel("Czy możesz powtórzyć ostatnie słowo?");
+    PL_wyraz_A[71] = new JLabel("Czy możesz to przeliterować?");
+    PL_wyraz_A[72] = new JLabel("Czy mógłby pan to zapisać?");
+    PL_wyraz_A[73] = new JLabel("Nie rozumiem.");
+    PL_wyraz_A[74] = new JLabel("Nie wiem.");
+    PL_wyraz_A[75] = new JLabel("Jak się masz?");
+    PL_wyraz_A[76] = new JLabel("Mam się dobrze, dziękuję.");
+    PL_wyraz_A[77] = new JLabel("Jak się nazywasz?");
+    PL_wyraz_A[78] = new JLabel("Nazywam się Marco.");
+    PL_wyraz_A[79] = new JLabel("Chciałbym go poznać.");
+    PL_wyraz_A[80] = new JLabel("To jest mój kolega Marek.");
+    PL_wyraz_A[81] = new JLabel("To są moi znajomi.");
+    PL_wyraz_A[82] = new JLabel("Miło cię poznać.");
+    PL_wyraz_A[83] = new JLabel("Miło pana poznać.");
+    PL_wyraz_A[84] = new JLabel("Skąd jesteś?");
+    PL_wyraz_A[85] = new JLabel("Skąd pochodzisz?");
+    PL_wyraz_A[86] = new JLabel("Pochodzę z Polski.");
+    PL_wyraz_A[87] = new JLabel("Nie jestem stąd.");
+    PL_wyraz_A[88] = new JLabel("Jesteśmy obcokrajowcami.");
+    PL_wyraz_A[89] = new JLabel("Gdzie mieszkasz?");
+    PL_wyraz_A[90] = new JLabel("Mieszkam w Mediolanie.");
+    PL_wyraz_A[91] = new JLabel("Od kiedy mieszkasz w Rzymie?");
+    PL_wyraz_A[92] = new JLabel("Czy mógłbyś mi pomóc?");
+    PL_wyraz_A[93] = new JLabel("Czy mogę prosić o pomoc?");
+    PL_wyraz_A[94] = new JLabel("Dziękuję za pomoc.");
+    PL_wyraz_A[95] = new JLabel("Myślisz, że to dobry pomysł?");
+    PL_wyraz_A[96] = new JLabel("Tak, zgadzam się z tobą.");
+    PL_wyraz_A[97] = new JLabel("<html>Według mnie to jest bardzo ciekawe rozwiązanie.<html>");
+    PL_wyraz_A[98] = new JLabel("Fantastycznie!");
+    PL_wyraz_A[99] = new JLabel("Super! Rewelacja!");
+    PL_wyraz_A[100] = new JLabel("Oczywiście masz rację.");
+    PL_wyraz_A[101] = new JLabel("Tak zrobimy!");
+    PL_wyraz_A[102] = new JLabel("Wydaje mi się, że to dobry pomysł.");
+    PL_wyraz_A[103] = new JLabel("Bardzo chętnie!");
+    PL_wyraz_A[104] = new JLabel("Niestety nie zgadzam się z tobą!");
+    PL_wyraz_A[105] = new JLabel("Co za bzdura!");
+    PL_wyraz_A[106] = new JLabel("To nie może być prawda!");
+    PL_wyraz_A[107] = new JLabel("Nie, to niemożliwe.");
+    PL_wyraz_A[108] = new JLabel("Naprawdę? To straszne!");
+    PL_wyraz_A[109] = new JLabel("Jesteś pewien?");
+    PL_wyraz_A[110] = new JLabel("A ty, co o tym myślisz?");
+    PL_wyraz_A[111] = new JLabel("Jakie jest twoje zdanie na ten temat?");
+    PL_wyraz_A[112] = new JLabel("Podoba ci się ten obraz?");
+    PL_wyraz_A[113] = new JLabel("Nie mogę się doczekać!");
+    PL_wyraz_A[114] = new JLabel("Jak leci?");
+    PL_wyraz_A[115] = new JLabel("Wszystko w porządku?");
+    PL_wyraz_A[116] = new JLabel("Jak minął dzień?");
+    PL_URL_A[1] = getClass().getResource("dzień dobry! (rano).wav");
+    PL_URL_A[2] = getClass().getResource("dzień dobry! (po południu).wav");
+    PL_URL_A[3] = getClass().getResource("dobry wieczór!.wav");
+    PL_URL_A[4] = getClass().getResource("cześć (powitanie i pożegnanie).wav");
+    PL_URL_A[5] = getClass().getResource("witaj.wav");
+    PL_URL_A[6] = getClass().getResource("dobranoc.wav");
+    PL_URL_A[7] = getClass().getResource("do widzenia, do zobaczenia.wav");
+    PL_URL_A[8] = getClass().getResource("do widzenia (forma grzecznościowa).wav");
+    PL_URL_A[9] = getClass().getResource("miłego dnia.wav");
+    PL_URL_A[10] = getClass().getResource("tobie również życzę miłego dnia.wav");
+    PL_URL_A[11] = getClass().getResource("na razie.wav");
+    PL_URL_A[12] = getClass().getResource("do zobaczenia wkrótce.wav");
+    PL_URL_A[13] = getClass().getResource("proszę (podając coś).wav");
+    PL_URL_A[14] = getClass().getResource("dziękuję.wav");
+    PL_URL_A[15] = getClass().getResource("proszę (prosząc o coś).wav");
+    PL_URL_A[16] = getClass().getResource("proszę bardzo.wav");
+    PL_URL_A[17] = getClass().getResource("nie ma za co.wav");
+    PL_URL_A[18] = getClass().getResource("przepraszam (np. zaczepiając osobę nieznajomą).wav");
+    PL_URL_A[19] = getClass().getResource("dziękuję bardzo.wav");
+    PL_URL_A[20] = getClass().getResource("przepraszam.wav");
+    PL_URL_A[21] = getClass().getResource("przykro mi.wav");
+    PL_URL_A[22] = getClass().getResource("nic nie szkodzi, nie ma problemu (odpowiedź na czyjeś przeprosiny).wav");
+    PL_URL_A[23] = getClass().getResource("tak, poproszę (o coś).wav");
+    PL_URL_A[24] = getClass().getResource("na zdrowie (toast).wav");
+    PL_URL_A[25] = getClass().getResource("smacznego.wav");
+    PL_URL_A[26] = getClass().getResource("na zdrowie (po kichnięciu).wav");
+    PL_URL_A[27] = getClass().getResource("zgadzam się, dobrze.wav");
+    PL_URL_A[28] = getClass().getResource("z przyjemnością.wav");
+    PL_URL_A[29] = getClass().getResource("serdeczne pozdrowienia.wav");
+    PL_URL_A[30] = getClass().getResource("serdecznie pozdrawiam.wav");
+    PL_URL_A[31] = getClass().getResource("witamy serdecznie.wav");
+    PL_URL_A[32] = getClass().getResource("kto.wav");
+    PL_URL_A[33] = getClass().getResource("co.wav");
+    PL_URL_A[34] = getClass().getResource("ile.wav");
+    PL_URL_A[35] = getClass().getResource("jak dużo.wav");
+    PL_URL_A[36] = getClass().getResource("jak.wav");
+    PL_URL_A[37] = getClass().getResource("gdzie.wav");
+    PL_URL_A[38] = getClass().getResource("kiedy.wav");
+    PL_URL_A[39] = getClass().getResource("dlaczego.wav");
+    PL_URL_A[40] = getClass().getResource("który, jaki.wav");
+    PL_URL_A[41] = getClass().getResource("Piotr jest teraz w domu.wav");
+    PL_URL_A[42] = getClass().getResource("Twój nowy samochód jest czarny.wav");
+    PL_URL_A[43] = getClass().getResource("Czy Paryż jest stolicą Francji.wav");
+    PL_URL_A[44] = getClass().getResource("Kto tutaj mieszka.wav");
+    PL_URL_A[45] = getClass().getResource("Kim jest Anna.wav");
+    PL_URL_A[46] = getClass().getResource("Czego chcesz.wav");
+    PL_URL_A[47] = getClass().getResource("Co o tym myślisz.wav");
+    PL_URL_A[48] = getClass().getResource("Ile kosztuje kilogram pomarańczy.wav");
+    PL_URL_A[49] = getClass().getResource("Ile widzisz ptaków.wav");
+    PL_URL_A[50] = getClass().getResource("Jak się nazywa twoja matka.wav");
+    PL_URL_A[51] = getClass().getResource("Jak chcesz się ubrać.wav");
+    PL_URL_A[52] = getClass().getResource("Gdzie można kupić sól.wav");
+    PL_URL_A[53] = getClass().getResource("Gdzie są moje okulary.wav");
+    PL_URL_A[54] = getClass().getResource("Kiedy wyjeżdżasz.wav");
+    PL_URL_A[55] = getClass().getResource("Kiedy są urodziny Sylwii.wav");
+    PL_URL_A[56] = getClass().getResource("Dlaczego mnie nie słuchasz.wav");
+    PL_URL_A[57] = getClass().getResource("Dlaczego Robert nie przyjdzie.wav");
+    PL_URL_A[58] = getClass().getResource("Który samochód jest twój.wav");
+    PL_URL_A[59] = getClass().getResource("Która ci się podoba.wav");
+    PL_URL_A[60] = getClass().getResource("Czy mówisz po angielsku.wav");
+    PL_URL_A[61] = getClass().getResource("Czy mówi pan po włosku.wav");
+    PL_URL_A[62] = getClass().getResource("Nie mówię dobrze po włosku..wav");
+    PL_URL_A[63] = getClass().getResource("Mówię po włosku tylko trochę..wav");
+    PL_URL_A[64] = getClass().getResource("Nie mówię po włosku, ale rozumiem pojedyncze słowa..wav");
+    PL_URL_A[65] = getClass().getResource("Mówię po angielsku..wav");
+    PL_URL_A[66] = getClass().getResource("Mów, proszę, powoli..wav");
+    PL_URL_A[67] = getClass().getResource("Możesz powtórzyć.wav");
+    PL_URL_A[68] = getClass().getResource("Czy mógłbyś powtórzyć.wav");
+    PL_URL_A[69] = getClass().getResource("Czy mogłaby pani mówić wolniej.wav");
+    PL_URL_A[70] = getClass().getResource("Czy możesz powtórzyć ostatnie słowo.wav");
+    PL_URL_A[71] = getClass().getResource("Czy możesz to przeliterować.wav");
+    PL_URL_A[72] = getClass().getResource("Czy mógłby pan to zapisać.wav");
+    PL_URL_A[73] = getClass().getResource("Nie rozumiem..wav");
+    PL_URL_A[74] = getClass().getResource("Nie wiem..wav");
+    PL_URL_A[75] = getClass().getResource("Jak się masz.wav");
+    PL_URL_A[76] = getClass().getResource("Mam się dobrze, dziękuję..wav");
+    PL_URL_A[77] = getClass().getResource("Jak się nazywasz.wav");
+    PL_URL_A[78] = getClass().getResource("Nazywam się Marco..wav");
+    PL_URL_A[79] = getClass().getResource("Chciałbym go poznać..wav");
+    PL_URL_A[80] = getClass().getResource("To jest mój kolega Marek..wav");
+    PL_URL_A[81] = getClass().getResource("To są moi znajomi..wav");
+    PL_URL_A[82] = getClass().getResource("Miło cię poznać..wav");
+    PL_URL_A[83] = getClass().getResource("Miło pana poznać..wav");
+    PL_URL_A[84] = getClass().getResource("Skąd jesteś.wav");
+    PL_URL_A[85] = getClass().getResource("Skąd pochodzisz.wav");
+    PL_URL_A[86] = getClass().getResource("Pochodzę z Polski..wav");
+    PL_URL_A[87] = getClass().getResource("Nie jestem stąd..wav");
+    PL_URL_A[88] = getClass().getResource("Jesteśmy obcokrajowcami..wav");
+    PL_URL_A[89] = getClass().getResource("Gdzie mieszkasz.wav");
+    PL_URL_A[90] = getClass().getResource("Mieszkam w Mediolanie..wav");
+    PL_URL_A[91] = getClass().getResource("Od kiedy mieszkasz w Rzymie.wav");
+    PL_URL_A[92] = getClass().getResource("Czy mógłbyś mi pomóc.wav");
+    PL_URL_A[93] = getClass().getResource("Czy mogę prosić o pomoc.wav");
+    PL_URL_A[94] = getClass().getResource("Dziękuję za pomoc..wav");
+    PL_URL_A[95] = getClass().getResource("Myślisz, że to dobry pomysł.wav");
+    PL_URL_A[96] = getClass().getResource("Tak, zgadzam się z tobą..wav");
+    PL_URL_A[97] = getClass().getResource("Według mnie to jest bardzo ciekawe rozwiązanie..wav");
+    PL_URL_A[98] = getClass().getResource("Fantastycznie!.wav");
+    PL_URL_A[99] = getClass().getResource("Super! Rewelacja!.wav");
+    PL_URL_A[100] = getClass().getResource("Oczywiście masz rację..wav");
+    PL_URL_A[101] = getClass().getResource("Tak zrobimy!.wav");
+    PL_URL_A[102] = getClass().getResource("Wydaje mi się, że to dobry pomysł..wav");
+    PL_URL_A[103] = getClass().getResource("Bardzo chętnie!.wav");
+    PL_URL_A[104] = getClass().getResource("Niestety nie zgadzam się z tobą!.wav");
+    PL_URL_A[105] = getClass().getResource("Co za bzdura!.wav");
+    PL_URL_A[106] = getClass().getResource("To nie może być prawda!.wav");
+    PL_URL_A[107] = getClass().getResource("Nie, to niemożliwe..wav");
+    PL_URL_A[108] = getClass().getResource("Naprawdę To straszne!.wav");
+    PL_URL_A[109] = getClass().getResource("Jesteś pewien.wav");
+    PL_URL_A[110] = getClass().getResource("A ty, co o tym myślisz.wav");
+    PL_URL_A[111] = getClass().getResource("Jakie jest twoje zdanie na ten temat.wav");
+    PL_URL_A[112] = getClass().getResource("Podoba ci się ten obraz.wav");
+    PL_URL_A[113] = getClass().getResource("Nie mogę się doczekać!.wav");
+    PL_URL_A[114] = getClass().getResource("Jak leci.wav");
+    PL_URL_A[115] = getClass().getResource("Wszystko w porządku.wav");
+    PL_URL_A[116] = getClass().getResource("Jak minął dzień.wav");
+    IT_espr_A[1] = new JLabel("buongiorno");
+    IT_espr_A[2] = new JLabel("buon pomeriggio");
+    IT_espr_A[3] = new JLabel("buonasera");
+    IT_espr_A[4] = new JLabel("ciao");
+    IT_espr_A[5] = new JLabel("salve");
+    IT_espr_A[6] = new JLabel("buonanotte");
+    IT_espr_A[7] = new JLabel("arrivederci");
+    IT_espr_A[8] = new JLabel("arrivederla");
+    IT_espr_A[9] = new JLabel("buona giornata");
+    IT_espr_A[10] = new JLabel("buona giornata anche a te");
+    IT_espr_A[11] = new JLabel("a dopo");
+    IT_espr_A[12] = new JLabel("a presto");
+    IT_espr_A[13] = new JLabel("prego");
+    IT_espr_A[14] = new JLabel("grazie");
+    IT_espr_A[15] = new JLabel("per favore");
+    IT_espr_A[16] = new JLabel("prego tanto");
+    IT_espr_A[17] = new JLabel("non c'è di che");
+    IT_espr_A[18] = new JLabel("mi scusi");
+    IT_espr_A[19] = new JLabel("grazie mille");
+    IT_espr_A[20] = new JLabel("chiedo scusa");
+    IT_espr_A[21] = new JLabel("mi dispiace");
+    IT_espr_A[22] = new JLabel("non c'è problema");
+    IT_espr_A[23] = new JLabel("sì, per piacere");
+    IT_espr_A[24] = new JLabel("alla salute");
+    IT_espr_A[25] = new JLabel("buon appetito");
+    IT_espr_A[26] = new JLabel("salute");
+    IT_espr_A[27] = new JLabel("sono d'accordo, bene");
+    IT_espr_A[28] = new JLabel("con piacere");
+    IT_espr_A[29] = new JLabel("cordiali saluti");
+    IT_espr_A[30] = new JLabel("saluto cordialmente");
+    IT_espr_A[31] = new JLabel("benvenuto");
+    IT_espr_A[32] = new JLabel("chi");
+    IT_espr_A[33] = new JLabel("che cosa");
+    IT_espr_A[34] = new JLabel("quanto");
+    IT_espr_A[35] = new JLabel("quanto");
+    IT_espr_A[36] = new JLabel("come");
+    IT_espr_A[37] = new JLabel("dove");
+    IT_espr_A[38] = new JLabel("quando");
+    IT_espr_A[39] = new JLabel("perché");
+    IT_espr_A[40] = new JLabel("quale");
+    IT_espr_A[41] = new JLabel("Pietro è a casa adesso?");
+    IT_espr_A[42] = new JLabel("La tua nuova macchina è nera?");
+    IT_espr_A[43] = new JLabel("Parigi è la capitale della Francia?");
+    IT_espr_A[44] = new JLabel("Chi abita qui?");
+    IT_espr_A[45] = new JLabel("Chi è Anna?");
+    IT_espr_A[46] = new JLabel("Che cosa vuoi?");
+    IT_espr_A[47] = new JLabel("Che ne pensi?");
+    IT_espr_A[48] = new JLabel("Quanto costa un chilo di arance?");
+    IT_espr_A[49] = new JLabel("Quanti uccelli vedi?");
+    IT_espr_A[50] = new JLabel("Come si chiama tua madre?");
+    IT_espr_A[51] = new JLabel("Come vuoi vestirti?");
+    IT_espr_A[52] = new JLabel("Dove si può comprare del sale?");
+    IT_espr_A[53] = new JLabel("Dove sono i miei occhiali?");
+    IT_espr_A[54] = new JLabel("Quando parti?");
+    IT_espr_A[55] = new JLabel("Quando è il compleanno di Silvia?");
+    IT_espr_A[56] = new JLabel("Perché non mi ascolti?");
+    IT_espr_A[57] = new JLabel("Perché Roberto non viene?");
+    IT_espr_A[58] = new JLabel("Qual è la tua macchina?");
+    IT_espr_A[59] = new JLabel("Quale ti piace?");
+    //Podstawy komunikacji i nawiązywanie znajomości
+    IT_espr_A[60] = new JLabel("Parli inglese?");
+    IT_espr_A[61] = new JLabel("Parla italiano?");
+    IT_espr_A[62] = new JLabel("Non parlo bene italiano.");
+    IT_espr_A[63] = new JLabel("Parlo italiano solo un po'.");
+    IT_espr_A[64] = new JLabel("<html>Non parlo italiano ma capisco delle parole singole.<html>");
+    IT_espr_A[65] = new JLabel("Parlo inglese.");
+    IT_espr_A[66] = new JLabel("Parli piano, per favore.");
+    IT_espr_A[67] = new JLabel("Puoi ripetere?");
+    IT_espr_A[68] = new JLabel("Potresti ripetere?");
+    IT_espr_A[69] = new JLabel("Potrebbe parlare piano?");
+    IT_espr_A[70] = new JLabel("Puoi ripetere l'ultima parola?");
+    IT_espr_A[71] = new JLabel("Puoi ripetere lettera dopo lettera?");
+    IT_espr_A[72] = new JLabel("Potrebbe scriverlo?");
+    IT_espr_A[73] = new JLabel("Non capisco.");
+    IT_espr_A[74] = new JLabel("Non so.");
+    IT_espr_A[75] = new JLabel("Come stai?");
+    IT_espr_A[76] = new JLabel("Sto bene, grazie.");
+    IT_espr_A[77] = new JLabel("Come ti chiami?");
+    IT_espr_A[78] = new JLabel("Mi chiamo Marco.");
+    IT_espr_A[79] = new JLabel("Vorrei conoscerlo.");
+    IT_espr_A[80] = new JLabel("Questo è il mio compagno Marco.");
+    IT_espr_A[81] = new JLabel("Questi sono i miei conoscenti.");
+    IT_espr_A[82] = new JLabel("Piacere di conoscerti.");
+    IT_espr_A[83] = new JLabel("Piacere di conoscerla.");
+    IT_espr_A[84] = new JLabel("Di dove sei?");
+    IT_espr_A[85] = new JLabel("Da dove vieni?");
+    IT_espr_A[86] = new JLabel("Vengo dalla Polonia.");
+    IT_espr_A[87] = new JLabel("Non sono di qui.");
+    IT_espr_A[88] = new JLabel("Siamo stranieri.");
+    IT_espr_A[89] = new JLabel("Dove abiti?");
+    IT_espr_A[90] = new JLabel("Abito a Milano.");
+    IT_espr_A[91] = new JLabel("Da quando abiti a Roma?");
+    IT_espr_A[92] = new JLabel("Potresti aiutarmi?");
+    IT_espr_A[93] = new JLabel("Posso chiedere aiuto?");
+    IT_espr_A[94] = new JLabel("Grazie dell'aiuto.");
+    IT_espr_A[95] = new JLabel("Pensi che sia una buona idea?");
+    IT_espr_A[96] = new JLabel("Sì, sono d'accordo con te.");
+    IT_espr_A[97] = new JLabel("Secondo me è una soluzione molto interessante.");
+    IT_espr_A[98] = new JLabel("Fantastico!");
+    IT_espr_A[99] = new JLabel("Stupendo! Una rivelazione!");
+    IT_espr_A[100] = new JLabel("Ovviamente hai ragione!");
+    IT_espr_A[101] = new JLabel("Faremo così!");
+    IT_espr_A[102] = new JLabel("Mi sembra che sia una buona idea.");
+    IT_espr_A[103] = new JLabel("Molto volentieri!");
+    IT_espr_A[104] = new JLabel("Purtroppo non sono d'accordo con te.");
+    IT_espr_A[105] = new JLabel("Che sciocchezza!");
+    IT_espr_A[106] = new JLabel("Non può essere la verità!");
+    IT_espr_A[107] = new JLabel("No, non è possibile.");
+    IT_espr_A[108] = new JLabel("Davvero? è terribile!");
+    IT_espr_A[109] = new JLabel("Sei sicuro?");
+    IT_espr_A[110] = new JLabel("E tu, che ne pensi?");
+    IT_espr_A[111] = new JLabel("Qual è il tuo parere su questo argomento?");
+    IT_espr_A[112] = new JLabel("Ti piace questo quadro?");
+    IT_espr_A[113] = new JLabel("Non vedo l'ora!");
+    IT_espr_A[114] = new JLabel("Come va?");
+    IT_espr_A[115] = new JLabel("Tutto bene?");
+    IT_espr_A[116] = new JLabel("Come è andata la giornata?");
+    IT_URL_A[1] = getClass().getResource("buongiorno.wav");
+    IT_URL_A[2] = getClass().getResource("buon pomeriggio.wav");
+    IT_URL_A[3] = getClass().getResource("buonasera.wav");
+    IT_URL_A[4] = getClass().getResource("ciao.wav");
+    IT_URL_A[5] = getClass().getResource("salve.wav");
+    IT_URL_A[6] = getClass().getResource("buonanotte.wav");
+    IT_URL_A[7] = getClass().getResource("arrivederci.wav");
+    IT_URL_A[8] = getClass().getResource("arrivederla.wav");
+    IT_URL_A[9] = getClass().getResource("buona giornata.wav");
+    IT_URL_A[10] = getClass().getResource("buona giornata anche a te.wav");
+    IT_URL_A[11] = getClass().getResource("a dopo.wav");
+    IT_URL_A[12] = getClass().getResource("a presto.wav");
+    IT_URL_A[13] = getClass().getResource("prego.wav");
+    IT_URL_A[14] = getClass().getResource("grazie.wav");
+    IT_URL_A[15] = getClass().getResource("per favore.wav");
+    IT_URL_A[16] = getClass().getResource("prego tanto.wav");
+    IT_URL_A[17] = getClass().getResource("non c'è di che.wav");
+    IT_URL_A[18] = getClass().getResource("mi scusi.wav");
+    IT_URL_A[19] = getClass().getResource("grazie mille.wav");
+    IT_URL_A[20] = getClass().getResource("chiedo scusa.wav");
+    IT_URL_A[21] = getClass().getResource("mi dispiace.wav");
+    IT_URL_A[22] = getClass().getResource("non c'è problema.wav");
+    IT_URL_A[23] = getClass().getResource("sì, per piacere.wav");
+    IT_URL_A[24] = getClass().getResource("alla salute.wav");
+    IT_URL_A[25] = getClass().getResource("buon appetito.wav");
+    IT_URL_A[26] = getClass().getResource("salute.wav");
+    IT_URL_A[27] = getClass().getResource("sono d'accordo, bene.wav");
+    IT_URL_A[28] = getClass().getResource("con piacere.wav");
+    IT_URL_A[29] = getClass().getResource("cordiali saluti.wav");
+    IT_URL_A[30] = getClass().getResource("saluto cordialmente.wav");
+    IT_URL_A[31] = getClass().getResource("benvenuto.wav");
+    IT_URL_A[32] = getClass().getResource("chi.wav");
+    IT_URL_A[33] = getClass().getResource("che cosa.wav");
+    IT_URL_A[34] = getClass().getResource("quanto.wav");
+    IT_URL_A[35] = getClass().getResource("quanto.wav");
+    IT_URL_A[36] = getClass().getResource("come.wav");
+    IT_URL_A[37] = getClass().getResource("dove.wav");
+    IT_URL_A[38] = getClass().getResource("quando.wav");
+    IT_URL_A[39] = getClass().getResource("perché.wav");
+    IT_URL_A[40] = getClass().getResource("quale.wav");
+    IT_URL_A[41] = getClass().getResource("Pietro è a casa adesso.wav");
+    IT_URL_A[42] = getClass().getResource("La tua nuova macchina è nera.wav");
+    IT_URL_A[43] = getClass().getResource("Parigi è la capitale della Francia.wav");
+    IT_URL_A[44] = getClass().getResource("Chi abita qui.wav");
+    IT_URL_A[45] = getClass().getResource("Chi è Anna.wav");
+    IT_URL_A[46] = getClass().getResource("Che cosa vuoi.wav");
+    IT_URL_A[47] = getClass().getResource("Che ne pensi.wav");
+    IT_URL_A[48] = getClass().getResource("Quanto costa un chilo di arance.wav");
+    IT_URL_A[49] = getClass().getResource("Quanti uccelli vedi.wav");
+    IT_URL_A[50] = getClass().getResource("Come si chiama tua madre.wav");
+    IT_URL_A[51] = getClass().getResource("Come vuoi vestirti.wav");
+    IT_URL_A[52] = getClass().getResource("Dove si può comprare del sale.wav");
+    IT_URL_A[53] = getClass().getResource("Dove sono i miei occhiali.wav");
+    IT_URL_A[54] = getClass().getResource("Quando parti.wav");
+    IT_URL_A[55] = getClass().getResource("Quando è il compleanno di Silvia.wav");
+    IT_URL_A[56] = getClass().getResource("Perché non mi ascolti.wav");
+    IT_URL_A[57] = getClass().getResource("Perché Roberto non viene.wav");
+    IT_URL_A[58] = getClass().getResource("Qual è la tua macchina.wav");
+    IT_URL_A[59] = getClass().getResource("Quale ti piace.wav");
+    IT_URL_A[60] = getClass().getResource("Parli inglese.wav");
+    IT_URL_A[61] = getClass().getResource("Parla italiano.wav");
+    IT_URL_A[62] = getClass().getResource("Non parlo bene italiano..wav");
+    IT_URL_A[63] = getClass().getResource("Parlo italiano solo un po'..wav");
+    IT_URL_A[64] = getClass().getResource("Non parlo italiano ma capisco delle parole singole..wav");
+    IT_URL_A[65] = getClass().getResource("Parlo inglese..wav");
+    IT_URL_A[66] = getClass().getResource("Parli piano, per favore..wav");
+    IT_URL_A[67] = getClass().getResource("Puoi ripetere.wav");
+    IT_URL_A[68] = getClass().getResource("Potresti ripetere.wav");
+    IT_URL_A[69] = getClass().getResource("Potrebbe parlare piano.wav");
+    IT_URL_A[70] = getClass().getResource("Puoi ripetere l'ultima parola.wav");
+    IT_URL_A[71] = getClass().getResource("Puoi ripetere lettera dopo lettera.wav");
+    IT_URL_A[72] = getClass().getResource("Potrebbe scriverlo.wav");
+    IT_URL_A[73] = getClass().getResource("Non capisco..wav");
+    IT_URL_A[74] = getClass().getResource("Non so..wav");
+    IT_URL_A[75] = getClass().getResource("Come stai.wav");
+    IT_URL_A[76] = getClass().getResource("Sto bene, grazie..wav");
+    IT_URL_A[77] = getClass().getResource("Come ti chiami.wav");
+    IT_URL_A[78] = getClass().getResource("Mi chiamo Marco..wav");
+    IT_URL_A[79] = getClass().getResource("Vorrei conoscerlo..wav");
+    IT_URL_A[80] = getClass().getResource("Questo è il mio compagno Marco..wav");
+    IT_URL_A[81] = getClass().getResource("Questi sono i miei conoscenti..wav");
+    IT_URL_A[82] = getClass().getResource("Piacere di conoscerti..wav");
+    IT_URL_A[83] = getClass().getResource("Piacere di conoscerla..wav");
+    IT_URL_A[84] = getClass().getResource("Di dove sei.wav");
+    IT_URL_A[85] = getClass().getResource("Da dove vieni.wav");
+    IT_URL_A[86] = getClass().getResource("Vengo dalla Polonia..wav");
+    IT_URL_A[87] = getClass().getResource("Non sono di qui..wav");
+    IT_URL_A[88] = getClass().getResource("Siamo stranieri..wav");
+    IT_URL_A[89] = getClass().getResource("Dove abiti.wav");
+    IT_URL_A[90] = getClass().getResource("Abito a Milano..wav");
+    IT_URL_A[91] = getClass().getResource("Da quando abiti a Roma.wav");
+    IT_URL_A[92] = getClass().getResource("Potresti aiutarmi.wav");
+    IT_URL_A[93] = getClass().getResource("Posso chiedere aiuto.wav");
+    IT_URL_A[94] = getClass().getResource("Grazie dell'aiuto..wav");
+    IT_URL_A[95] = getClass().getResource("Pensi che sia una buona idea.wav");
+    IT_URL_A[96] = getClass().getResource("Sì, sono d'accordo con te..wav");
+    IT_URL_A[97] = getClass().getResource("Secondo me è una soluzione molto interessante..wav");
+    IT_URL_A[98] = getClass().getResource("Fantastico!.wav");
+    IT_URL_A[99] = getClass().getResource("Stupendo! Una rivelazione!.wav");
+    IT_URL_A[100] = getClass().getResource("Ovviamente hai ragione!.wav");
+    IT_URL_A[101] = getClass().getResource("Faremo così!.wav");
+    IT_URL_A[102] = getClass().getResource("Mi sembra che sia una buona idea..wav");
+    IT_URL_A[103] = getClass().getResource("Molto volentieri!.wav");
+    IT_URL_A[104] = getClass().getResource("Purtroppo non sono d'accordo con te..wav");
+    IT_URL_A[105] = getClass().getResource("Che sciocchezza!.wav");
+    IT_URL_A[106] = getClass().getResource("Non può essere la verità!.wav");
+    IT_URL_A[107] = getClass().getResource("No, non è possibile..wav");
+    IT_URL_A[108] = getClass().getResource("Davvero è terribile!.wav");
+    IT_URL_A[109] = getClass().getResource("Sei sicuro.wav");
+    IT_URL_A[110] = getClass().getResource("E tu, che ne pensi.wav");
+    IT_URL_A[111] = getClass().getResource("Qual è il tuo parere su questo argomento.wav");
+    IT_URL_A[112] = getClass().getResource("Ti piace questo quadro.wav");
+    IT_URL_A[113] = getClass().getResource("Non vedo l'ora!.wav");
+    IT_URL_A[114] = getClass().getResource("Come va.wav");
+    IT_URL_A[115] = getClass().getResource("Tutto bene.wav");
+    IT_URL_A[116] = getClass().getResource("Come è andata la giornata.wav");
+    for (int i = 1; i <= 10; i++) {
+      page_A[1].add(PL_wyraz_A[i]);
+      page_A[1].add(IT_espr_A[i]);
+    }
+    for (int i = 11; i <= 20; i++) {
+      page_A[2].add(PL_wyraz_A[i]);
+      page_A[2].add(IT_espr_A[i]);
+    }
+    for (int i = 21; i <= 30; i++) {
+      page_A[3].add(PL_wyraz_A[i]);
+      page_A[3].add(IT_espr_A[i]);
+    }
+    for (int i = 31; i <= 40; i++) {
+      page_A[4].add(PL_wyraz_A[i]);
+      page_A[4].add(IT_espr_A[i]);
+    }
+    for (int i = 41; i <= 50; i++) {
+      page_A[5].add(PL_wyraz_A[i]);
+      page_A[5].add(IT_espr_A[i]);
+    }
+    for (int i = 51; i <= 60; i++) {
+      page_A[6].add(PL_wyraz_A[i]);
+      page_A[6].add(IT_espr_A[i]);
+    }
+    for (int i = 61; i <= 70; i++) {
+      page_A[7].add(PL_wyraz_A[i]);
+      page_A[7].add(IT_espr_A[i]);
+    }
+    for (int i = 71; i <= 80; i++) {
+      page_A[8].add(PL_wyraz_A[i]);
+      page_A[8].add(IT_espr_A[i]);
+    }
+    for (int i = 81; i <= 90; i++) {
+      page_A[9].add(PL_wyraz_A[i]);
+      page_A[9].add(IT_espr_A[i]);
+    }
+    for (int i = 91; i <= 100; i++) {
+      page_A[10].add(PL_wyraz_A[i]);
+      page_A[10].add(IT_espr_A[i]);
+    }
+    for (int i = 101; i <= 110; i++) {
+      page_A[11].add(PL_wyraz_A[i]);
+      page_A[11].add(IT_espr_A[i]);
+    }
+    for (int i = 111; i <= 116; i++) {
+      page_A[12].add(PL_wyraz_A[i]);
+      page_A[12].add(IT_espr_A[i]);
+    }
+    for (int i = 1; i <= 116; i++) {
+      PL_wyraz_A[i].addMouseListener(this);
+      IT_espr_A[i].addMouseListener(this);
+      PL_wyraz_A[i].setBorder(BorderFactory.createRaisedSoftBevelBorder());
+      IT_espr_A[i].setBorder(BorderFactory.createRaisedSoftBevelBorder());
+      PL_wyraz_A[i].setFont(pageDefaultFont_A);
+      IT_espr_A[i].setFont(pageDefaultFont_A);
+      PL_wyraz_A[i].setForeground(PL_color_A);
+      IT_espr_A[i].setForeground(IT_color_A);
+      PL_wyraz_A[i].setOpaque(true);
+      IT_espr_A[i].setOpaque(true);
+      PL_wyraz_A[i].setSize(500, 50);
+      IT_espr_A[i].setSize(500, 50);
+      PL_AIS_A[i] = AudioSystem.getAudioInputStream(PL_URL_A[i]);
+      PL_clip_A[i] = AudioSystem.getClip();
+      PL_clip_A[i].open(PL_AIS_A[i]);
+      IT_AIS_A[i] = AudioSystem.getAudioInputStream(IT_URL_A[i]);
+      IT_clip_A[i] = AudioSystem.getClip();
+      IT_clip_A[i].open(IT_AIS_A[i]);
+    }
+    for (int i = 1; i <= 116; i += 10) {
+      PL_wyraz_A[i].setLocation(140, 20);
+      IT_espr_A[i].setLocation(640, 20);
+    }
+    for (int i = 2; i <= 116; i += 10) {
+      PL_wyraz_A[i].setLocation(140, 70);
+      IT_espr_A[i].setLocation(640, 70);
+    }
+    for (int i = 3; i <= 116; i += 10) {
+      PL_wyraz_A[i].setLocation(140, 120);
+      IT_espr_A[i].setLocation(640, 120);
+    }
+    for (int i = 4; i <= 116; i += 10) {
+      PL_wyraz_A[i].setLocation(140, 170);
+      IT_espr_A[i].setLocation(640, 170);
+    }
+    for (int i = 5; i <= 116; i += 10) {
+      PL_wyraz_A[i].setLocation(140, 220);
+      IT_espr_A[i].setLocation(640, 220);
+    }
+    for (int i = 6; i <= 116; i += 10) {
+      PL_wyraz_A[i].setLocation(140, 270);
+      IT_espr_A[i].setLocation(640, 270);
+    }
+    for (int i = 7; i <= 116; i += 10) {
+      PL_wyraz_A[i].setLocation(140, 320);
+      IT_espr_A[i].setLocation(640, 320);
+    }
+    for (int i = 8; i <= 116; i += 10) {
+      PL_wyraz_A[i].setLocation(140, 370);
+      IT_espr_A[i].setLocation(640, 370);
+    }
+    for (int i = 9; i <= 116; i += 10) {
+      PL_wyraz_A[i].setLocation(140, 420);
+      IT_espr_A[i].setLocation(640, 420);
+    }
+    for (int i = 10; i <= 116; i += 10) {
+      PL_wyraz_A[i].setLocation(140, 470);
+      IT_espr_A[i].setLocation(640, 470);
+    }
+  }
+  public void PLIT_WYRAZESPRESSIONE_B() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    PL_wyraz_B = new JLabel[1000];
+    IT_espr_B = new JLabel[1000];
+    PL_URL_B = new URL[1000];
+    IT_URL_B = new URL[1000];
+    PL_AIS_B = new AudioInputStream[1000];
+    IT_AIS_B = new AudioInputStream[1000];
+    PL_clip_B = new Clip[1000];
+    IT_clip_B = new Clip[1000];
+    //Podstawowe zwroty grzecznościowe, zawieranie znajo
+    PL_wyraz_B[1] = new JLabel("<html>Cześć! Jestem Andrzej.<html>");
+    PL_wyraz_B[2] = new JLabel("<html>Cześć! Miło mi cię poznać.<html>");
+    PL_wyraz_B[3] = new JLabel("<html>Dzień dobry! Miło mi pana poznać, panie Rossi.<html>");
+    PL_wyraz_B[4] = new JLabel("<html>Jak się nazywasz?<html>");
+    PL_wyraz_B[5] = new JLabel("<html>Nazywam się Paolo.<html>");
+    PL_wyraz_B[6] = new JLabel("<html>Dobry wieczór. Jak się macie?<html>");
+    PL_wyraz_B[7] = new JLabel("<html>Dobranoc. Do jutra.<html>");
+    PL_wyraz_B[8] = new JLabel("<html>Szczęśliwej podróży. Życzę panu miłego pobytu w Rzymie.<html>");
+    PL_wyraz_B[9] = new JLabel("<html>Serdecznie mnie powitali.<html>");
+    PL_wyraz_B[10] = new JLabel("<html>Do zobaczenia wkrótce.<html>");
+    PL_wyraz_B[11] = new JLabel("<html>Przepraszam cię za to, co zrobiłem.<html>");
+    PL_wyraz_B[12] = new JLabel("<html>przepraszam<html>");
+    PL_wyraz_B[13] = new JLabel("<html>Przepraszam, że przeszkadzam. Jesteś zajęty?<html>");
+    PL_wyraz_B[14] = new JLabel("<html>Przykro mi! Proszę chwilę zaczekać.<html>");
+    PL_wyraz_B[15] = new JLabel("<html>Proszę wejść. Proszę usiąść.<html>");
+    PL_wyraz_B[16] = new JLabel("<html>Miło mi panią poznać.<html>");
+    PL_wyraz_B[17] = new JLabel("<html>Serdeczne pozdrowienia!<html>");
+    PL_wyraz_B[18] = new JLabel("<html>Żegnaj! Nie chcę cię już więcej widzieć!<html>");
+    PL_wyraz_B[19] = new JLabel("<html>szkoda! wielka szkoda!<html>");
+    PL_wyraz_B[20] = new JLabel("<html>Szkoda, że musisz już iść.<html>");
+    PL_wyraz_B[21] = new JLabel("<html>Przedstawiam panu panią profesor Gallini.<html>");
+    PL_wyraz_B[22] = new JLabel("<html>Cieszę się, że mogę panią poznać.<html>");
+    PL_wyraz_B[23] = new JLabel("<html>zwracać się do kogoś w sposób formalny (per Pan, Pani)<html>");
+    PL_wyraz_B[24] = new JLabel("<html>Mimo, że znamy się już od dwóch miesięcy, zwracamy się do siebie na pan.<html>");
+    PL_wyraz_B[25] = new JLabel("<html>Poznałem panią Papini. Była bardzo uprzejma w stosunku do mnie.<html>");
+    PL_wyraz_B[26] = new JLabel("<html>Zaprzyjaźniliśmy się sześć lat temu podczas pobytu w Barcelonie.<html>");
+    PL_wyraz_B[27] = new JLabel("<html>Oto mój mąż, Domenico.<html>");
+    PL_wyraz_B[28] = new JLabel("<html>Już się poznaliśmy?<html>");
+    PL_wyraz_B[29] = new JLabel("<html>Na imię mam Maria, a na nazwisko Herz. Ma ono niemieckie pochodzenie.<html>");
+    PL_wyraz_B[30] = new JLabel("<html>Jaki jest twój adres?<html>");
+    PL_wyraz_B[31] = new JLabel("<html>Mieszkam w Warszawie przy ulicy Pięknej 8, mieszkanie 25.<html>");
+    PL_wyraz_B[32] = new JLabel("<html>Prosiłeś mnie, żebym przyniósł ci tę książkę.<html>");
+    PL_wyraz_B[33] = new JLabel("<html>Czy może mi pan pomóc? Nie mogę sobie poradzić z tą ciężką walizką.<html>");
+    PL_wyraz_B[34] = new JLabel("<html>Potrzebna jest twoja pomoc.<html>");
+    PL_wyraz_B[35] = new JLabel("<html>Pomóż mi, jestem już zdesperowana.<html>");
+    PL_wyraz_B[36] = new JLabel("<html>Czy mogę Pana prosić o wyjaśnienia?<html>");
+    PL_wyraz_B[37] = new JLabel("<html>Ta trudna sytuacja wymaga od nas wiele cierpliwości.<html>");
+    PL_wyraz_B[38] = new JLabel("<html>wymagany<html>");
+    PL_wyraz_B[39] = new JLabel("<html>Jakie dokumenty są wymagane?<html>");
+    //Wyrażanie opinii, preferencji i sugestii
+    PL_wyraz_B[40] = new JLabel("<html>Jestem trochę zmęczony z powodu tej długiej podróży.<html>");
+    PL_wyraz_B[41] = new JLabel("<html>Według mnie ta opinia jest błędna.<html>");
+    PL_wyraz_B[42] = new JLabel("<html>Wolę rybę od mięsa.<html>");
+    PL_wyraz_B[43] = new JLabel("<html>Jakie są pańskie preferencje dotyczące podróży?<html>");
+    PL_wyraz_B[44] = new JLabel("<html>Proszę dać mi swój paszport.<html>");
+    PL_wyraz_B[45] = new JLabel("<html>Proszę cię, nie zdradź nikomu mojej tajemnicy.<html>");
+    PL_wyraz_B[46] = new JLabel("<html>Dziękuję ci za twoją pomoc. Jestem ci bardzo wdzięczny.<html>");
+    PL_wyraz_B[47] = new JLabel("<html>Nie ma za co. To było łatwe.<html>");
+    PL_wyraz_B[48] = new JLabel("<html>Podoba mi się ten chłopak, jest bardzo przystojny.<html>");
+    PL_wyraz_B[49] = new JLabel("<html>Nie podoba mi się ta książka, jest zbyt nudna.<html>");
+    PL_wyraz_B[50] = new JLabel("<html>Czy zgadzasz się na moją propozycję?<html>");
+    PL_wyraz_B[51] = new JLabel("<html>Nie zgadzam się z twoją opinią.<html>");
+    PL_wyraz_B[52] = new JLabel("<html>nie mieć racji<html>");
+    PL_wyraz_B[53] = new JLabel("<html>Jest pewien swojej opinii, chociaż nie ma racji.<html>");
+    PL_wyraz_B[54] = new JLabel("<html>Czy mógłbym cię prosić o przysługę?<html>");
+    PL_wyraz_B[55] = new JLabel("<html>Sprawiłeś mi wielką przyjemność swoją wizytą.<html>");
+    PL_wyraz_B[56] = new JLabel("<html>Masz rację, to była moja wina.<html>");
+    PL_wyraz_B[57] = new JLabel("<html>Nie zaproponował nam niczego ciekawego.<html>");
+    PL_wyraz_B[58] = new JLabel("<html>Zasugerował, żeby odwiedzić Marię.<html>");
+    PL_wyraz_B[59] = new JLabel("<html>Dobrze mi doradziłeś, to był idealny prezent dla mojego narzeczonego!<html>");
+    PL_wyraz_B[60] = new JLabel("<html>Zmieniłem zdanie. Nie idę do teatru.<html>");
+    PL_wyraz_B[61] = new JLabel("<html>Zapraszam cię na kawę. Ja stawiam.<html>");
+    PL_wyraz_B[62] = new JLabel("<html>Nie pamiętam, gdzie położyłem swój portfel.<html>");
+    PL_wyraz_B[63] = new JLabel("<html>Zapomniałem zamknąć drzwi na klucz.<html>");
+    PL_wyraz_B[64] = new JLabel("<html>Nie zauważyłem tego.<html>");
+    PL_wyraz_B[65] = new JLabel("<html>Szaleję na punkcie komedii.<html>");
+    PL_wyraz_B[66] = new JLabel("<html>Nie mogę wyrazić zgody na twoją prośbę.<html>");
+    PL_wyraz_B[67] = new JLabel("<html>Nie ważne.<html>");
+    PL_wyraz_B[68] = new JLabel("<html>Nic mnie to nie obchodzi! Rób, co chcesz!<html>");
+    PL_wyraz_B[69] = new JLabel("<html>Wyszedłem, ponieważ byłem zmęczony.<html>");
+    PL_wyraz_B[70] = new JLabel("<html>jednak<html>");
+    PL_wyraz_B[71] = new JLabel("<html>Rozumiem twoją sytuację, potrzebuję jednak dalszych wyjaśnień.<html>");
+    //Czas
+    PL_wyraz_B[72] = new JLabel("<html>Co robisz w wolnym czasie?<html>");
+    PL_wyraz_B[73] = new JLabel("<html>Która jest godzina?<html>");
+    PL_wyraz_B[74] = new JLabel("<html>Ile potrzeba minut, żeby ugotować spaghetti?<html>");
+    PL_wyraz_B[75] = new JLabel("<html>Nie czekam ani sekundy dłużej!<html>");
+    PL_wyraz_B[76] = new JLabel("<html>W tym roku rozpoczynam pracę w banku.<html>");
+    PL_wyraz_B[77] = new JLabel("<html>To był wiek wojen i biedy.<html>");
+    PL_wyraz_B[78] = new JLabel("<html>Jaka jest data urodzin Pier Paolo Pasoloniego?<html>");
+    PL_wyraz_B[79] = new JLabel("<html>Który dzisiaj jest?<html>");
+    PL_wyraz_B[80] = new JLabel("<html>Dzisiaj jest dzisiąty stycznia 2015.<html>");
+    PL_wyraz_B[81] = new JLabel("<html>Wczoraj spóźniłem się na pociąg, ponieważ budzik nie zadzwonił.<html>");
+    PL_wyraz_B[82] = new JLabel("<html>Jutro będzie pierwszy lipca.<html>");
+    PL_wyraz_B[83] = new JLabel("<html>Zapomniałem zegarka i nie wiem, która jest godzina.<html>");
+    PL_wyraz_B[84] = new JLabel("<html>O której godzinie dzwoni twój budzik?<html>");
+    PL_wyraz_B[85] = new JLabel("<html>Zapomniałem nastawić budzika i spóźniłem się do pracy godzinę.<html>");
+    PL_wyraz_B[86] = new JLabel("<html>Pospiesz się! W południe wychodzimy z domu.<html>");
+    PL_wyraz_B[87] = new JLabel("<html>Nie zasnąłem do północy.<html>");
+    PL_wyraz_B[88] = new JLabel("<html>Kończę za pół godziny.<html>");
+    PL_wyraz_B[89] = new JLabel("<html>Tym razem przybyłem na czas.<html>");
+    PL_wyraz_B[90] = new JLabel("<html>Spotykamy się punktualnie o ósmej.<html>");
+    PL_wyraz_B[91] = new JLabel("<html>Jest już późno, musimy iść do domu.<html>");
+    PL_wyraz_B[92] = new JLabel("<html>Nie musisz się spieszyć, ponieważ jest jeszcze wcześnie.<html>");
+    PL_wyraz_B[93] = new JLabel("<html>Nie przejmuj się. Zaraz do ciebie wracam.<html>");
+    PL_wyraz_B[94] = new JLabel("<html>Ile czasu trwa przedstawienie?<html>");
+    PL_wyraz_B[95] = new JLabel("<html>Spieszę się i nie mogę teraz z tobą rozmawiać.<html>");
+    PL_wyraz_B[96] = new JLabel("<html>Pospiesz się albo się spóźnimy.<html>");
+    PL_wyraz_B[97] = new JLabel("<html>Przybyłem za wcześnie i musiałem czekać 20 minut.<html>");
+    PL_wyraz_B[98] = new JLabel("<html>W kwietniu rzadko pada śnieg.<html>");
+    PL_wyraz_B[99] = new JLabel("<html>Często jadam obiad w restauracji.<html>");
+    PL_wyraz_B[100] = new JLabel("<html>Nigdy nie wykonuję prac domowych, robi to mój mąż.<html>");
+    PL_wyraz_B[101] = new JLabel("<html>Gratulacje, proszę pani! Pani dziecko zawsze dobrze zachowuje się w szkole.<html>");
+    PL_wyraz_B[102] = new JLabel("<html>W zeszłym roku zdałem egzamin na prawo jazdy.<html>");
+    PL_wyraz_B[103] = new JLabel("<html>W przyszłym miesiącu idziemy na koncert mojej ulubionej piosenkarki.<html>");
+    PL_wyraz_B[104] = new JLabel("<html>Dwa lata temu byliśmy we Włoszech.<html>");
+    PL_wyraz_B[105] = new JLabel("<html>Którą porę roku lubisz najbardziej?<html>");
+    PL_wyraz_B[106] = new JLabel("<html>Spędziłem lato w górach.<html>");
+    PL_wyraz_B[107] = new JLabel("<html>Jesienią często pada deszcz.<html>");
+    PL_wyraz_B[108] = new JLabel("<html>Zimą lubię jeździć na nartach.<html>");
+    PL_wyraz_B[109] = new JLabel("<html>Wiosną często chodzę do parku, żeby podziwiać przyrodę.<html>");
+    PL_wyraz_B[110] = new JLabel("<html>Dzisiejszej nocy wrócę do domu późno.<html>");
+    PL_wyraz_B[111] = new JLabel("<html>Dziś rano zjadłem kanapkę i wypiłem sok owocowy.<html>");
+    PL_wyraz_B[112] = new JLabel("<html>Sobota to jedyny dzień tygodnia, w który mam trochę wolnego czasu.<html>");
+    PL_wyraz_B[113] = new JLabel("<html>Mój ulubiony miesiąc to czerwiec.<html>");
+    //Emocje i zmysły
+    PL_wyraz_B[114] = new JLabel("<html>Na jego twarzy nie można było zobaczyć żadnych emocji.<html>");
+    PL_wyraz_B[115] = new JLabel("<html>Przyjaźń to bardzo silne uczucie.<html>");
+    PL_wyraz_B[116] = new JLabel("<html>Czy czuje pani ten zapach?<html>");
+    PL_wyraz_B[117] = new JLabel("<html>Słyszałeś ten hałas?<html>");
+    PL_wyraz_B[118] = new JLabel("<html>Widzieliśmy twój nowy samochód, jest bardzo nowoczesny.<html>");
+    PL_wyraz_B[119] = new JLabel("<html>Mama bardzo kocha swoje dzieci.<html>");
+    PL_wyraz_B[120] = new JLabel("<html>Nie wiem, jak ona się nazywa. Musisz zapytać o to inną osobę.<html>");
+    PL_wyraz_B[121] = new JLabel("<html>Nie chcę jeść rosołu!<html>");
+    PL_wyraz_B[122] = new JLabel("<html>Mogę zadzwonić do ciebie o ósmej rano?<html>");
+    PL_wyraz_B[123] = new JLabel("<html>Muszę iść do szkoły.<html>");
+    PL_wyraz_B[124] = new JLabel("<html>Trzeba dodać trochę soli do sosu.<html>");
+    PL_wyraz_B[125] = new JLabel("<html>potrzebować czegoś, być potrzebnym<html>");
+    PL_wyraz_B[126] = new JLabel("<html>Nienawidzę swoich wad.<html>");
+    PL_wyraz_B[127] = new JLabel("<html>Już nic do ciebie nie czuję.<html>");
+    PL_wyraz_B[128] = new JLabel("<html>Czy mógłbyś zrobić mi tę uprzejmość i kupić gazetę, kiedy będziesz wracał?<html>");
+    PL_wyraz_B[129] = new JLabel("<html>Bardzo chętnie pomogę ci sprzątać.<html>");
+    PL_wyraz_B[130] = new JLabel("<html>Pewnie, że chcę iść z tobą do kina.<html>");
+    PL_wyraz_B[131] = new JLabel("<html>Potrzebuję twojej pomocy.<html>");
+    PL_wyraz_B[132] = new JLabel("<html>Mam ochotę zjeść podwieczorek.<html>");
+    PL_wyraz_B[133] = new JLabel("<html>Jak możesz wytłumaczyć swoje skandaliczne zachowanie?<html>");
+    PL_wyraz_B[134] = new JLabel("<html>Żałuję tego, co zrobiłem.<html>");
+    PL_wyraz_B[135] = new JLabel("<html>Obraziłeś się na mnie, bo nie przyszedłem na twoje przyjęcie?<html>");
+    PL_wyraz_B[136] = new JLabel("<html>Mam nadzieję, że szybko wyzdrowiejesz.<html>");
+    PL_wyraz_B[137] = new JLabel("<html>Andrea często traci cierpliwość, jest bardzo nerwowy.<html>");
+    PL_wyraz_B[138] = new JLabel("<html>Moja córka myśli tylko o swoim wyglądzie zewnętrznym, spędza wiele godzin przed lustrem.<html>");
+    PL_wyraz_B[139] = new JLabel("<html>Jestem osobą średniego wzrostu.<html>");
+    PL_wyraz_B[140] = new JLabel("<html>Gianni jest najwyższy spośród swoich przyjaciół.<html>");
+    PL_wyraz_B[141] = new JLabel("<html>Pietro jest tak samo niski jak Carla.<html>");
+    PL_wyraz_B[142] = new JLabel("<html>Ta aktorka jest bardzo piękna. Nie wierzę, że miała operację plastyczną.<html>");
+    PL_wyraz_B[143] = new JLabel("<html>Jak to możliwe, że taki brzydki obraz kosztuje 10 000 dolarów!<html>");
+    PL_wyraz_B[144] = new JLabel("<html>Wszystkie dziewczyny chcą być szczupłe jak najsłynniejsze modelki.<html>");
+    PL_wyraz_B[145] = new JLabel("<html>Jego kot jest bardzo gruby i ciągle je.<html>");
+    PL_wyraz_B[146] = new JLabel("<html>Mój brat ma ciemne włosy, a jego dziewczyna jasne.<html>");
+    PL_wyraz_B[147] = new JLabel("<html>Zawsze chciałem mieć kręcone włosy, ale niestety mam proste.<html>");
+    PL_wyraz_B[148] = new JLabel("<html>Jego dziewczyna ma brązowe oczy i czarne włosy.<html>");
+    PL_wyraz_B[149] = new JLabel("<html>Mój nowy narzeczony jest bardzo atrakcyjny, jest wysoki, ma mały nos i niebieskie oczy.<html>");
+    PL_wyraz_B[150] = new JLabel("<html>Jego wnuk ma zadarty nos i bardzo duże usta.<html>");
+    PL_wyraz_B[151] = new JLabel("<html>Sofia jest chuda, ale ma okrągłą twarz.<html>");
+    PL_wyraz_B[152] = new JLabel("<html>Gina ma długie i zgrabne nogi, natomiast jej brat ma nogi krótkie i krzywe.<html>");
+    PL_wyraz_B[153] = new JLabel("<html>Po wakacjach miałem opaloną skórę.<html>");
+    PL_wyraz_B[154] = new JLabel("<html>Jego wnuk jest do niego podobny. Ma nawet pieprzyk na policzku, dokładnie jak jego dziadek.<html>");
+    PL_wyraz_B[155] = new JLabel("<html>Ten chłopiec jest silny jak jego ojciec, mimo że ma tylko 13 lat.<html>");
+    PL_wyraz_B[156] = new JLabel("<html>Był mężczyzną o delikatnej budowie ciała. Dlatego byłem zaskoczony, gdy powiedział, że chce pracować jako ochroniarz.<html>");
+    PL_wyraz_B[157] = new JLabel("<html>Jej narzeczony jest brzydki jak ropucha. Ale wiesz, jak się mówi: miłość jest ślepa.<html>");
+    PL_wyraz_B[158] = new JLabel("<html>Po takiej diecie będziesz chudy jak gwóźdź.<html>");
+    PL_wyraz_B[159] = new JLabel("<html>Jej wujek ma wąsy i brodę, i dlatego ta mała się go boi.<html>");
+    PL_wyraz_B[160] = new JLabel("<html>Od miesiąca nie jem słodyczy. Jestem na diecie.<html>");
+    PL_wyraz_B[161] = new JLabel("<html>Chociaż przestrzega diety, to od czasu do czasu je lody.<html>");
+    //Ubrania
+    PL_wyraz_B[162] = new JLabel("<html>Bardzo mi się podoba to ubranie. Ile kosztuje?<html>");
+    PL_wyraz_B[163] = new JLabel("<html>Przykro mi, proszę pani, ale to ubranie nie jest na sprzedaż.<html>");
+    PL_wyraz_B[164] = new JLabel("<html>Dział z ubraniami damskimi znajduje się w głębi sklepu.<html>");
+    PL_wyraz_B[165] = new JLabel("<html>Szukam męskich ubrań w rozmiarze 50. Chciałbym kupić prezent dla mojego ojca.<html>");
+    PL_wyraz_B[166] = new JLabel("<html>Ubrałem się w pośpiechu i wybiegłem z domu.<html>");
+    PL_wyraz_B[167] = new JLabel("<html>Wieczorem jestem tak zmęczony, że szybko się rozbieram, biorę prysznic i idę spać.<html>");
+    PL_wyraz_B[168] = new JLabel("<html>Wygląda bardzo grubo w tej sukience w groszki.<html>");
+    PL_wyraz_B[169] = new JLabel("<html>Szukam białej koszuli w niebieskie paski.<html>");
+    PL_wyraz_B[170] = new JLabel("<html>Ten krawat w paski jest bardzo elegancki. Pasowałby do twojej zielonej koszuli.<html>");
+    PL_wyraz_B[171] = new JLabel("<html>Dobrze wyglądasz w tych spodniach.<html>");
+    PL_wyraz_B[172] = new JLabel("<html>Ten żółty sweter ci nie pasuje. Wybierz inny kolor.<html>");
+    PL_wyraz_B[173] = new JLabel("<html>Nie lubię nosić rajstop. Myślę, że mam uczulenie na syntetyki.<html>");
+    PL_wyraz_B[174] = new JLabel("<html>Załóż płaszcz! Jest zimno!<html>");
+    PL_wyraz_B[175] = new JLabel("<html>Twoja torba jest zawsze bardzo ciężka. Co masz w środku?<html>");
+    PL_wyraz_B[176] = new JLabel("<html>Te buty ze skóry są bardzo drogie.<html>");
+    PL_wyraz_B[177] = new JLabel("<html>Te skarpetki są z wełny. Noszę je zawsze zimą.<html>");
+    PL_wyraz_B[178] = new JLabel("<html>Z czego jest zrobiona ta koszulka?<html>");
+    PL_wyraz_B[179] = new JLabel("<html>Kupiłam bawełnianą pościel.<html>");
+    PL_wyraz_B[180] = new JLabel("<html>Znalazłem tę koszulę w kratę w sklepie na rogu.<html>");
+    PL_URL_B[1] = getClass().getResource("Cześć! Jestem Andrzej..wav");
+    PL_URL_B[2] = getClass().getResource("Cześć! Miło mi cię poznać..wav");
+    PL_URL_B[3] = getClass().getResource("Dzień dobry! Miło mi pana poznać, panie Rossi..wav");
+    PL_URL_B[4] = getClass().getResource("Jak się nazywasz.wav");
+    PL_URL_B[5] = getClass().getResource("Nazywam się Paolo..wav");
+    PL_URL_B[6] = getClass().getResource("Dobry wieczór. Jak się macie.wav");
+    PL_URL_B[7] = getClass().getResource("Dobranoc. Do jutra..wav");
+    PL_URL_B[8] = getClass().getResource("Szczęśliwej podróży. Życzę panu miłego pobytu w Rzymie..wav");
+    PL_URL_B[9] = getClass().getResource("Serdecznie mnie powitali..wav");
+    PL_URL_B[10] = getClass().getResource("do zobaczenia wkrótce.wav");
+    PL_URL_B[11] = getClass().getResource("Przepraszam cię za to, co zrobiłem..wav");
+    PL_URL_B[12] = getClass().getResource("przepraszam.wav");
+    PL_URL_B[13] = getClass().getResource("Przepraszam, że przeszkadzam. Jesteś zajęty.wav");
+    PL_URL_B[14] = getClass().getResource("Przykro mi! Proszę chwilę zaczekać..wav");
+    PL_URL_B[15] = getClass().getResource("Proszę wejść. Proszę usiąść..wav");
+    PL_URL_B[16] = getClass().getResource("Miło mi panią poznać..wav");
+    PL_URL_B[17] = getClass().getResource("Serdeczne pozdrowienia!.wav");
+    PL_URL_B[18] = getClass().getResource("Żegnaj! Nie chcę cię już więcej widzieć!.wav");
+    PL_URL_B[19] = getClass().getResource("szkoda! wielka szkoda!.wav");
+    PL_URL_B[20] = getClass().getResource("Szkoda, że musisz już iść..wav");
+    PL_URL_B[21] = getClass().getResource("Przedstawiam panu panią profesor Gallini..wav");
+    PL_URL_B[22] = getClass().getResource("Cieszę się, że mogę panią poznać..wav");
+    PL_URL_B[23] = getClass().getResource("zwracać się do kogoś w sposób formalny (per Pan, Pani).wav");
+    PL_URL_B[24] = getClass().getResource("Mimo, że znamy się już od dwóch miesięcy, zwracamy się do siebie na pan..wav");
+    PL_URL_B[25] = getClass().getResource("Poznałem panią Papini. Była bardzo uprzejma w stosunku do mnie..wav");
+    PL_URL_B[26] = getClass().getResource("Zaprzyjaźniliśmy się sześć lat temu podczas pobytu w Barcelonie..wav");
+    PL_URL_B[27] = getClass().getResource("Oto mój mąż, Domenico..wav");
+    PL_URL_B[28] = getClass().getResource("Już się poznaliśmy.wav");
+    PL_URL_B[29] = getClass().getResource("Na imię mam Maria, a na nazwisko Herz. Ma ono niemieckie pochodzenie..wav");
+    PL_URL_B[30] = getClass().getResource("Jaki jest twój adres.wav");
+    PL_URL_B[31] = getClass().getResource("Mieszkam w Warszawie przy ulicy Pięknej 8, mieszkanie 25..wav");
+    PL_URL_B[32] = getClass().getResource("Prosiłeś mnie, żebym przyniósł ci tę książkę..wav");
+    PL_URL_B[33] = getClass().getResource("Czy może mi pan pomóc Nie mogę sobie poradzić z tą ciężką walizką..wav");
+    PL_URL_B[34] = getClass().getResource("Potrzebna jest twoja pomoc..wav");
+    PL_URL_B[35] = getClass().getResource("Pomóż mi, jestem już zdesperowana..wav");
+    PL_URL_B[36] = getClass().getResource("Czy mogę Pana prosić o wyjaśnienia.wav");
+    PL_URL_B[37] = getClass().getResource("Ta trudna sytuacja wymaga od nas wiele cierpliwości..wav");
+    PL_URL_B[38] = getClass().getResource("wymagany.wav");
+    PL_URL_B[39] = getClass().getResource("Jakie dokumenty są wymagane.wav");
+    PL_URL_B[40] = getClass().getResource("Jestem trochę zmęczony z powodu tej długiej podróży..wav");
+    PL_URL_B[41] = getClass().getResource("Według mnie ta opinia jest błędna..wav");
+    PL_URL_B[42] = getClass().getResource("Wolę rybę od mięsa..wav");
+    PL_URL_B[43] = getClass().getResource("Jakie są pańskie preferencje dotyczące podróży.wav");
+    PL_URL_B[44] = getClass().getResource("Proszę dać mi swój paszport..wav");
+    PL_URL_B[45] = getClass().getResource("Proszę cię, nie zdradź nikomu mojej tajemnicy..wav");
+    PL_URL_B[46] = getClass().getResource("Dziękuję ci za twoją pomoc. Jestem ci bardzo wdzięczny..wav");
+    PL_URL_B[47] = getClass().getResource("Nie ma za co. To było łatwe..wav");
+    PL_URL_B[48] = getClass().getResource("Podoba mi się ten chłopak, jest bardzo przystojny..wav");
+    PL_URL_B[49] = getClass().getResource("Nie podoba mi się ta książka, jest zbyt nudna..wav");
+    PL_URL_B[50] = getClass().getResource("Czy zgadzasz się na moją propozycję.wav");
+    PL_URL_B[51] = getClass().getResource("Nie zgadzam się z twoją opinią..wav");
+    PL_URL_B[52] = getClass().getResource("nie mieć racji.wav");
+    PL_URL_B[53] = getClass().getResource("Jest pewien swojej opinii, chociaż nie ma racji..wav");
+    PL_URL_B[54] = getClass().getResource("Czy mógłbym cię prosić o przysługę.wav");
+    PL_URL_B[55] = getClass().getResource("Sprawiłeś mi wielką przyjemność swoją wizytą..wav");
+    PL_URL_B[56] = getClass().getResource("Masz rację, to była moja wina..wav");
+    PL_URL_B[57] = getClass().getResource("Nie zaproponował nam niczego ciekawego..wav");
+    PL_URL_B[58] = getClass().getResource("Zasugerował, żeby odwiedzić Marię..wav");
+    PL_URL_B[59] = getClass().getResource("Dobrze mi doradziłeś, to był idealny prezent dla mojego narzeczonego!.wav");
+    PL_URL_B[60] = getClass().getResource("Zmieniłem zdanie. Nie idę do teatru..wav");
+    PL_URL_B[61] = getClass().getResource("Zapraszam cię na kawę. Ja stawiam..wav");
+    PL_URL_B[62] = getClass().getResource("Nie pamiętam, gdzie położyłem swój portfel..wav");
+    PL_URL_B[63] = getClass().getResource("Zapomniałem zamknąć drzwi na klucz..wav");
+    PL_URL_B[64] = getClass().getResource("Nie zauważyłem tego..wav");
+    PL_URL_B[65] = getClass().getResource("Szaleję na punkcie komedii..wav");
+    PL_URL_B[66] = getClass().getResource("Nie mogę wyrazić zgody na twoją prośbę..wav");
+    PL_URL_B[67] = getClass().getResource("Nie ważne..wav");
+    PL_URL_B[68] = getClass().getResource("Nic mnie to nie obchodzi! Rób, co chcesz!.wav");
+    PL_URL_B[69] = getClass().getResource("Wyszedłem, ponieważ byłem zmęczony..wav");
+    PL_URL_B[70] = getClass().getResource("jednak.wav");
+    PL_URL_B[71] = getClass().getResource("Rozumiem twoją sytuację, potrzebuję jednak dalszych wyjaśnień..wav");
+    PL_URL_B[72] = getClass().getResource("Co robisz w wolnym czasie.wav");
+    PL_URL_B[73] = getClass().getResource("Która jest godzina.wav");
+    PL_URL_B[74] = getClass().getResource("Ile potrzeba minut, żeby ugotować spaghetti.wav");
+    PL_URL_B[75] = getClass().getResource("Nie czekam ani sekundy dłużej!.wav");
+    PL_URL_B[76] = getClass().getResource("W tym roku rozpoczynam pracę w banku..wav");
+    PL_URL_B[77] = getClass().getResource("To był wiek wojen i biedy..wav");
+    PL_URL_B[78] = getClass().getResource("Jaka jest data urodzin Pier Paolo Pasoloniego.wav");
+    PL_URL_B[79] = getClass().getResource("Który dzisiaj jest.wav");
+    PL_URL_B[80] = getClass().getResource("Dzisiaj jest dzisiąty stycznia 2015..wav");
+    PL_URL_B[81] = getClass().getResource("Wczoraj spóźniłem się na pociąg, ponieważ budzik nie zadzwonił..wav");
+    PL_URL_B[82] = getClass().getResource("Jutro będzie pierwszy lipca..wav");
+    PL_URL_B[83] = getClass().getResource("Zapomniałem zegarka i nie wiem, która jest godzina..wav");
+    PL_URL_B[84] = getClass().getResource("O której godzinie dzwoni twój budzik.wav");
+    PL_URL_B[85] = getClass().getResource("Zapomniałem nastawić budzika i spóźniłem się do pracy godzinę..wav");
+    PL_URL_B[86] = getClass().getResource("Pospiesz się! W południe wychodzimy z domu..wav");
+    PL_URL_B[87] = getClass().getResource("Nie zasnąłem do północy..wav");
+    PL_URL_B[88] = getClass().getResource("Kończę za pół godziny..wav");
+    PL_URL_B[89] = getClass().getResource("Tym razem przybyłem na czas..wav");
+    PL_URL_B[90] = getClass().getResource("Spotykamy się punktualnie o ósmej..wav");
+    PL_URL_B[91] = getClass().getResource("Jest już późno, musimy iść do domu..wav");
+    PL_URL_B[92] = getClass().getResource("Nie musisz się spieszyć, ponieważ jest jeszcze wcześnie..wav");
+    PL_URL_B[93] = getClass().getResource("Nie przejmuj się. Zaraz do ciebie wracam..wav");
+    PL_URL_B[94] = getClass().getResource("Ile czasu trwa przedstawienie.wav");
+    PL_URL_B[95] = getClass().getResource("Spieszę się i nie mogę teraz z tobą rozmawiać..wav");
+    PL_URL_B[96] = getClass().getResource("Pospiesz się albo się spóźnimy..wav");
+    PL_URL_B[97] = getClass().getResource("Przybyłem za wcześnie i musiałem czekać 20 minut..wav");
+    PL_URL_B[98] = getClass().getResource("W kwietniu rzadko pada śnieg..wav");
+    PL_URL_B[99] = getClass().getResource("Często jadam obiad w restauracji..wav");
+    PL_URL_B[100] = getClass().getResource("Nigdy nie wykonuję prac domowych, robi to mój mąż..wav");
+    PL_URL_B[101] = getClass().getResource("Gratulacje, proszę pani! Pani dziecko zawsze dobrze zachowuje się w szkole..wav");
+    PL_URL_B[102] = getClass().getResource("W zeszłym roku zdałem egzamin na prawo jazdy..wav");
+    PL_URL_B[103] = getClass().getResource("W przyszłym miesiącu idziemy na koncert mojej ulubionej piosenkarki..wav");
+    PL_URL_B[104] = getClass().getResource("Dwa lata temu byliśmy we Włoszech..wav");
+    PL_URL_B[105] = getClass().getResource("Którą porę roku lubisz najbardziej.wav");
+    PL_URL_B[106] = getClass().getResource("Spędziłem lato w górach..wav");
+    PL_URL_B[107] = getClass().getResource("Jesienią często pada deszcz..wav");
+    PL_URL_B[108] = getClass().getResource("Zimą lubię jeździć na nartach..wav");
+    PL_URL_B[109] = getClass().getResource("Wiosną często chodzę do parku, żeby podziwiać przyrodę..wav");
+    PL_URL_B[110] = getClass().getResource("Dzisiejszej nocy wrócę do domu późno..wav");
+    PL_URL_B[111] = getClass().getResource("Dziś rano zjadłem kanapkę i wypiłem sok owocowy..wav");
+    PL_URL_B[112] = getClass().getResource("Sobota to jedyny dzień tygodnia, w który mam trochę wolnego czasu..wav");
+    PL_URL_B[113] = getClass().getResource("Mój ulubiony miesiąc to czerwiec..wav");
+    PL_URL_B[114] = getClass().getResource("Na jego twarzy nie można było zobaczyć żadnych emocji..wav");
+    PL_URL_B[115] = getClass().getResource("Przyjaźń to bardzo silne uczucie..wav");
+    PL_URL_B[116] = getClass().getResource("Czy czuje pani ten zapach.wav");
+    PL_URL_B[117] = getClass().getResource("Słyszałeś ten hałas.wav");
+    PL_URL_B[118] = getClass().getResource("Widzieliśmy twój nowy samochód, jest bardzo nowoczesny..wav");
+    PL_URL_B[119] = getClass().getResource("Mama bardzo kocha swoje dzieci..wav");
+    PL_URL_B[120] = getClass().getResource("Nie wiem, jak ona się nazywa. Musisz zapytać o to inną osobę..wav");
+    PL_URL_B[121] = getClass().getResource("Nie chcę jeść rosołu!.wav");
+    PL_URL_B[122] = getClass().getResource("Mogę zadzwonić do ciebie o ósmej rano.wav");
+    PL_URL_B[123] = getClass().getResource("Muszę iść do szkoły..wav");
+    PL_URL_B[124] = getClass().getResource("Trzeba dodać trochę soli do sosu..wav");
+    PL_URL_B[125] = getClass().getResource("potrzebować czegoś, być potrzebnym.wav");
+    PL_URL_B[126] = getClass().getResource("Nienawidzę swoich wad..wav");
+    PL_URL_B[127] = getClass().getResource("Już nic do ciebie nie czuję..wav");
+    PL_URL_B[128] = getClass().getResource("Czy mógłbyś zrobić mi tę uprzejmość i kupić gazetę, kiedy będziesz wracał.wav");
+    PL_URL_B[129] = getClass().getResource("Bardzo chętnie pomogę ci sprzątać..wav");
+    PL_URL_B[130] = getClass().getResource("Pewnie, że chcę iść z tobą do kina..wav");
+    PL_URL_B[131] = getClass().getResource("Potrzebuję twojej pomocy..wav");
+    PL_URL_B[132] = getClass().getResource("Mam ochotę zjeść podwieczorek..wav");
+    PL_URL_B[133] = getClass().getResource("Jak możesz wytłumaczyć swoje skandaliczne zachowanie.wav");
+    PL_URL_B[134] = getClass().getResource("Żałuję tego, co zrobiłem..wav");
+    PL_URL_B[135] = getClass().getResource("Obraziłeś się na mnie, bo nie przyszedłem na twoje przyjęcie.wav");
+    PL_URL_B[136] = getClass().getResource("Mam nadzieję, że szybko wyzdrowiejesz..wav");
+    PL_URL_B[137] = getClass().getResource("Andrea często traci cierpliwość, jest bardzo nerwowy..wav");
+    PL_URL_B[138] = getClass().getResource("Moja córka myśli tylko o swoim wyglądzie zewnętrznym, spędza wiele godzin przed lustrem..wav");
+    PL_URL_B[139] = getClass().getResource("Jestem osobą średniego wzrostu..wav");
+    PL_URL_B[140] = getClass().getResource("Gianni jest najwyższy spośród swoich przyjaciół..wav");
+    PL_URL_B[141] = getClass().getResource("Pietro jest tak samo niski jak Carla..wav");
+    PL_URL_B[142] = getClass().getResource("Ta aktorka jest bardzo piękna. Nie wierzę, że miała operację plastyczną..wav");
+    PL_URL_B[143] = getClass().getResource("Jak to możliwe, że taki brzydki obraz kosztuje 10 000 dolarów!.wav");
+    PL_URL_B[144] = getClass().getResource("Wszystkie dziewczyny chcą być szczupłe jak najsłynniejsze modelki..wav");
+    PL_URL_B[145] = getClass().getResource("Jego kot jest bardzo gruby i ciągle je..wav");
+    PL_URL_B[146] = getClass().getResource("Mój brat ma ciemne włosy, a jego dziewczyna jasne..wav");
+    PL_URL_B[147] = getClass().getResource("Zawsze chciałem mieć kręcone włosy, ale niestety mam proste..wav");
+    PL_URL_B[148] = getClass().getResource("Jego dziewczyna ma brązowe oczy i czarne włosy..wav");
+    PL_URL_B[149] = getClass().getResource("Mój nowy narzeczony jest bardzo atrakcyjny, jest wysoki, ma mały nos i niebieskie oczy..wav");
+    PL_URL_B[150] = getClass().getResource("Jego wnuk ma zadarty nos i bardzo duże usta..wav");
+    PL_URL_B[151] = getClass().getResource("Sofia jest chuda, ale ma okrągłą twarz..wav");
+    PL_URL_B[152] = getClass().getResource("Gina ma długie i zgrabne nogi, natomiast jej brat ma nogi krótkie i krzywe..wav");
+    PL_URL_B[153] = getClass().getResource("Po wakacjach miałem opaloną skórę..wav");
+    PL_URL_B[154] = getClass().getResource("Jego wnuk jest do niego podobny. Ma nawet pieprzyk na policzku, dokładnie jak jego dziadek..wav");
+    PL_URL_B[155] = getClass().getResource("Ten chłopiec jest silny jak jego ojciec, mimo że ma tylko 13 lat..wav");
+    PL_URL_B[156] = getClass().getResource("Był mężczyzną o delikatnej budowie ciała. Dlatego byłem zaskoczony, gdy powiedział, że chce pracować jako ochroniarz..wav");
+    PL_URL_B[157] = getClass().getResource("Jej narzeczony jest brzydki jak ropucha. Ale wiesz, jak się mówi miłość jest ślepa..wav");
+    PL_URL_B[158] = getClass().getResource("Po takiej diecie będziesz chudy jak gwóźdź..wav");
+    PL_URL_B[159] = getClass().getResource("Jej wujek ma wąsy i brodę, i dlatego ta mała się go boi..wav");
+    PL_URL_B[160] = getClass().getResource("Od miesiąca nie jem słodyczy. Jestem na diecie..wav");
+    PL_URL_B[161] = getClass().getResource("Chociaż przestrzega diety, to od czasu do czasu je lody..wav");
+    PL_URL_B[162] = getClass().getResource("Bardzo mi się podoba to ubranie. Ile kosztuje.wav");
+    PL_URL_B[163] = getClass().getResource("Przykro mi, proszę pani, ale to ubranie nie jest na sprzedaż..wav");
+    PL_URL_B[164] = getClass().getResource("Dział z ubraniami damskimi znajduje się w głębi sklepu..wav");
+    PL_URL_B[165] = getClass().getResource("Szukam męskich ubrań w rozmiarze 50. Chciałbym kupić prezent dla mojego ojca..wav");
+    PL_URL_B[166] = getClass().getResource("Ubrałem się w pośpiechu i wybiegłem z domu..wav");
+    PL_URL_B[167] = getClass().getResource("Wieczorem jestem tak zmęczony, że szybko się rozbieram, biorę prysznic i idę spać..wav");
+    PL_URL_B[168] = getClass().getResource("Wygląda bardzo grubo w tej sukience w groszki..wav");
+    PL_URL_B[169] = getClass().getResource("Szukam białej koszuli w niebieskie paski..wav");
+    PL_URL_B[170] = getClass().getResource("Ten krawat w paski jest bardzo elegancki. Pasowałby do twojej zielonej koszuli..wav");
+    PL_URL_B[171] = getClass().getResource("Dobrze wyglądasz w tych spodniach..wav");
+    PL_URL_B[172] = getClass().getResource("Ten żółty sweter ci nie pasuje. Wybierz inny kolor..wav");
+    PL_URL_B[173] = getClass().getResource("Nie lubię nosić rajstop. Myślę, że mam uczulenie na syntetyki..wav");
+    PL_URL_B[174] = getClass().getResource("Załóż płaszcz! Jest zimno!.wav");
+    PL_URL_B[175] = getClass().getResource("Twoja torba jest zawsze bardzo ciężka. Co masz w środku.wav");
+    PL_URL_B[176] = getClass().getResource("Te buty ze skóry są bardzo drogie..wav");
+    PL_URL_B[177] = getClass().getResource("Te skarpetki są z wełny. Noszę je zawsze zimą..wav");
+    PL_URL_B[178] = getClass().getResource("Z czego jest zrobiona ta koszulka.wav");
+    PL_URL_B[179] = getClass().getResource("Kupiłam bawełnianą pościel..wav");
+    PL_URL_B[180] = getClass().getResource("Znalazłem tę koszulę w kratę w sklepie na rogu..wav");
+    IT_espr_B[1] = new JLabel("<html>Ciao! Sono Andrea.<html>");
+    IT_espr_B[2] = new JLabel("<html>Ciao! Piacere di conoscerti.<html>");
+    IT_espr_B[3] = new JLabel("<html>Buongiorno! Piacere di conoscerla, signor Rossi.<html>");
+    IT_espr_B[4] = new JLabel("<html>Come ti chiami?<html>");
+    IT_espr_B[5] = new JLabel("<html>Mi chiamo Paolo.<html>");
+    IT_espr_B[6] = new JLabel("<html>Buonasera. Come state?<html>");
+    IT_espr_B[7] = new JLabel("<html>Buonanotte. A domani.<html>");
+    IT_espr_B[8] = new JLabel("<html>Buon viaggio. Le auguro un buon soggiorno a Roma.<html>");
+    IT_espr_B[9] = new JLabel("<html>Mi hanno dato un cordiale benvenuto.<html>");
+    IT_espr_B[10] = new JLabel("<html>Arrivederci, a presto<html>");
+    IT_espr_B[11] = new JLabel("<html>Ti chiedo scusa per quello che ho fatto.<html>");
+    IT_espr_B[12] = new JLabel("<html>scusi<html>");
+    IT_espr_B[13] = new JLabel("<html>Scusi del disturbo. Sei occupato?<html>");
+    IT_espr_B[14] = new JLabel("<html>Mi dispiace. Aspetti un attimo, per favore.<html>");
+    IT_espr_B[15] = new JLabel("<html>Avanti! Si accomodi!<html>");
+    IT_espr_B[16] = new JLabel("<html>Piacere di conoscerla.<html>");
+    IT_espr_B[17] = new JLabel("<html>Cordiali saluti!<html>");
+    IT_espr_B[18] = new JLabel("<html>Addio! Non voglio più vederti!<html>");
+    IT_espr_B[19] = new JLabel("<html>peccato! che peccato!<html>");
+    IT_espr_B[20] = new JLabel("<html>Peccato che devi già andare via.<html>");
+    IT_espr_B[21] = new JLabel("<html>Le presento la professoressa Gallini.<html>");
+    IT_espr_B[22] = new JLabel("<html>Sono lieto di conoscerla, Signora.<html>");
+    IT_espr_B[23] = new JLabel("<html>dare del Lei<html>");
+    IT_espr_B[24] = new JLabel("<html>Anche se ci conosciamo già da due mesi, ci diamo del Lei.<html>");
+    IT_espr_B[25] = new JLabel("<html>Ho fatto conoscenza con la Signora Papini. è stata molto gentile nei miei confronti.<html>");
+    IT_espr_B[26] = new JLabel("<html>Abbiamo fatto amicizia sei anni fa, durante il soggiorno a Barcellona.<html>");
+    IT_espr_B[27] = new JLabel("<html>Ecco mio marito, Domenico.<html>");
+    IT_espr_B[28] = new JLabel("<html>Ci siamo già conosciuti?<html>");
+    IT_espr_B[29] = new JLabel("<html>Il mio nome è Maria, ma il mio cognome è Herz, è di origine tedesca.<html>");
+    IT_espr_B[30] = new JLabel("<html>Qual è il tuo indirizzo?<html>");
+    IT_espr_B[31] = new JLabel("<html>Abito a Varsavia in via Piękna 8, interno 25.<html>");
+    IT_espr_B[32] = new JLabel("<html>Mi hai chiesto di portarti questo libro.<html>");
+    IT_espr_B[33] = new JLabel("<html>Mi può aiutare? Non ce la faccio con questa valigia pesante.<html>");
+    IT_espr_B[34] = new JLabel("<html>Occorre il tuo aiuto.<html>");
+    IT_espr_B[35] = new JLabel("<html>Dammi una mano, sono già disperata.<html>");
+    IT_espr_B[36] = new JLabel("<html>Le posso chiedere spiegazioni?<html>");
+    IT_espr_B[37] = new JLabel("<html>Questa situazione difficile richiede da noi molta pazienza.<html>");
+    IT_espr_B[38] = new JLabel("<html>richiesto<html>");
+    IT_espr_B[39] = new JLabel("<html>Quali documenti sono richiesti?<html>");
+    IT_espr_B[40] = new JLabel("<html>Sono un po' stanco per via di questo lungo viaggio.<html>");
+    IT_espr_B[41] = new JLabel("<html>Secondo me questa opinione è sbagliata.<html>");
+    IT_espr_B[42] = new JLabel("<html>Preferisco il pesce alla carne.<html>");
+    IT_espr_B[43] = new JLabel("<html>Quali sono le sue preferenze riguardanti il viaggio?<html>");
+    IT_espr_B[44] = new JLabel("<html>Mi dia il suo passaporto, per favore.<html>");
+    IT_espr_B[45] = new JLabel("<html>Ti prego di non rivelare il mio segreto a nessuno!<html>");
+    IT_espr_B[46] = new JLabel("<html>Ti ringrazio per il tuo aiuto. Ti sono molto grato.<html>");
+    IT_espr_B[47] = new JLabel("<html>Non c'è di che, è stato facile.<html>");
+    IT_espr_B[48] = new JLabel("<html>Mi piace questo ragazzo, è molto benfatto.<html>");
+    IT_espr_B[49] = new JLabel("<html>Non mi piace questo libro, è troppo noioso.<html>");
+    IT_espr_B[50] = new JLabel("<html>Sei d'accordo con la mia proposta?<html>");
+    IT_espr_B[51] = new JLabel("<html>Non sono d'accordo con la tua opinione.<html>");
+    IT_espr_B[52] = new JLabel("<html>avere torto<html>");
+    IT_espr_B[53] = new JLabel("<html>è sicuro della sua opinione, anche se ha torto.<html>");
+    IT_espr_B[54] = new JLabel("<html>Ti potrei chiedere un favore?<html>");
+    IT_espr_B[55] = new JLabel("<html>Mi hai fatto un grande piacere con la tua visita.<html>");
+    IT_espr_B[56] = new JLabel("<html>Hai ragione, è stata colpa mia.<html>");
+    IT_espr_B[57] = new JLabel("<html>Non ci ha fatto nessuna proposta interessante.<html>");
+    IT_espr_B[58] = new JLabel("<html>Ha suggerito di fare visita a Maria.<html>");
+    IT_espr_B[59] = new JLabel("<html>Mi hai consigliato bene, è stato un regalo perfetto per il mio fidanzato!<html>");
+    IT_espr_B[60] = new JLabel("<html>Ho cambiato idea. Non vado a teatro.<html>");
+    IT_espr_B[61] = new JLabel("<html>Ti invito a bere un caffè. Offro io.<html>");
+    IT_espr_B[62] = new JLabel("<html>Non ricordo dove ho messo il mio portafoglio.<html>");
+    IT_espr_B[63] = new JLabel("<html>Ho dimenticato di chiudere la porta a chiave.<html>");
+    IT_espr_B[64] = new JLabel("<html>Non ci ho fatto caso.<html>");
+    IT_espr_B[65] = new JLabel("<html>Vado pazzo per le commedie.<html>");
+    IT_espr_B[66] = new JLabel("<html>Non posso acconsentire alla tua richiesta.<html>");
+    IT_espr_B[67] = new JLabel("<html>Non importa.<html>");
+    IT_espr_B[68] = new JLabel("<html>Non m'importa niente! Fa' cosa vuoi!<html>");
+    IT_espr_B[69] = new JLabel("<html>Sono uscito, perchè ero stanco.<html>");
+    IT_espr_B[70] = new JLabel("<html>però<html>");
+    IT_espr_B[71] = new JLabel("<html>Capisco la tua situazione, però ho bisogno di ulteriori spiegazioni.<html>");
+    IT_espr_B[72] = new JLabel("<html>Che cosa fai nel tempo libero?<html>");
+    IT_espr_B[73] = new JLabel("<html>Che ora è?<html>");
+    IT_espr_B[74] = new JLabel("<html>Quanti minuti ci vogliono per cuocere gli spaghetti?<html>");
+    IT_espr_B[75] = new JLabel("<html>Non aspetto neanche un secondo di più!<html>");
+    IT_espr_B[76] = new JLabel("<html>Quest'anno comincio a lavorare in banca.<html>");
+    IT_espr_B[77] = new JLabel("<html>Era un secolo di guerre e povertà.<html>");
+    IT_espr_B[78] = new JLabel("<html>Qual è la data di nascita di Pier Paolo Pasolini?<html>");
+    IT_espr_B[79] = new JLabel("<html>Quanti ne abbiamo oggi?<html>");
+    IT_espr_B[80] = new JLabel("<html>Oggi è il dieci gennaio 2015.<html>");
+    IT_espr_B[81] = new JLabel("<html>Ieri ho perso il treno, perchè la sveglia non ha suonato.<html>");
+    IT_espr_B[82] = new JLabel("<html>Domani sarà il primo luglio.<html>");
+    IT_espr_B[83] = new JLabel("<html>Ho dimenticato il mio orologio e non so che ora è.<html>");
+    IT_espr_B[84] = new JLabel("<html>A che ora suona la tua sveglia?<html>");
+    IT_espr_B[85] = new JLabel("<html>Ho dimenticato di mettere la sveglia e sono venuto in ufficio con un'ora di ritardo.<html>");
+    IT_espr_B[86] = new JLabel("<html>Sbrigati! A mezzogiorno usciamo di casa.<html>");
+    IT_espr_B[87] = new JLabel("<html>Non ho dormito fino a mezzanotte.<html>");
+    IT_espr_B[88] = new JLabel("<html>Finisco tra mezz'ora.<html>");
+    IT_espr_B[89] = new JLabel("<html>Questa volta sono venuto in tempo.<html>");
+    IT_espr_B[90] = new JLabel("<html>Ci incontriamo alle otto in punto.<html>");
+    IT_espr_B[91] = new JLabel("<html>è già tardi, dobbiamo andare a casa.<html>");
+    IT_espr_B[92] = new JLabel("<html>Non ti devi sbrigare, perchè è ancora presto.<html>");
+    IT_espr_B[93] = new JLabel("<html>Non preoccuparti! Torno subito da te.<html>");
+    IT_espr_B[94] = new JLabel("<html>Quanto tempo dura lo spettacolo?<html>");
+    IT_espr_B[95] = new JLabel("<html>Ho fretta e non posso parlare con te adesso.<html>");
+    IT_espr_B[96] = new JLabel("<html>Sbrigati o saremo in ritardo.<html>");
+    IT_espr_B[97] = new JLabel("<html>Sono arrivato in anticipo e ho dovuto aspettare venti minuti.<html>");
+    IT_espr_B[98] = new JLabel("<html>In aprile nevica raramente.<html>");
+    IT_espr_B[99] = new JLabel("<html>Spesso pranzo al ristorante.<html>");
+    IT_espr_B[100] = new JLabel("<html>Non faccio mai i lavori domestici, li fa mio marito.<html>");
+    IT_espr_B[101] = new JLabel("<html>Complimenti signora! Il suo bambino si comporta sempre bene a scuola.<html>");
+    IT_espr_B[102] = new JLabel("<html>L'anno scorso ho conseguito la patente di guida.<html>");
+    IT_espr_B[103] = new JLabel("<html>Il prossimo mese andiamo al concerto della mia cantante preferita.<html>");
+    IT_espr_B[104] = new JLabel("<html>Due anni fa siamo stati in Italia.<html>");
+    IT_espr_B[105] = new JLabel("<html>Quale stagione dell'anno ti piace di più?<html>");
+    IT_espr_B[106] = new JLabel("<html>Ho trascorso l'estate in montagna.<html>");
+    IT_espr_B[107] = new JLabel("<html>D'autunno piove spesso.<html>");
+    IT_espr_B[108] = new JLabel("<html>D'inverno mi piace sciare.<html>");
+    IT_espr_B[109] = new JLabel("<html>In primavera vado spesso al parco per ammirare la natura.<html>");
+    IT_espr_B[110] = new JLabel("<html>Stanotte tornerò a casa tardi.<html>");
+    IT_espr_B[111] = new JLabel("<html>Stamattina ho mangiato un panino ed ho bevuto un succo di frutta.<html>");
+    IT_espr_B[112] = new JLabel("<html>Il sabato è l'unico giorno della settimana in cui ho un po' di tempo libero.<html>");
+    IT_espr_B[113] = new JLabel("<html>Il mio mese preferito è giugno.<html>");
+    IT_espr_B[114] = new JLabel("<html>Sul suo viso non si poteva vedere nessuna emozione.<html>");
+    IT_espr_B[115] = new JLabel("<html>L'amicizia è un sentimento molto forte.<html>");
+    IT_espr_B[116] = new JLabel("<html>Può sentire questo profumo?<html>");
+    IT_espr_B[117] = new JLabel("<html>Hai udito questo rumore?<html>");
+    IT_espr_B[118] = new JLabel("<html>Abbiamo visto la tua macchina nuova, è molto moderna.<html>");
+    IT_espr_B[119] = new JLabel("<html>La mamma ama molto i suoi figli.<html>");
+    IT_espr_B[120] = new JLabel("<html>Io non so, come si chiami lei. Devi chiederlo ad un'altra persona.<html>");
+    IT_espr_B[121] = new JLabel("<html>Non voglio mangiare il brodo!<html>");
+    IT_espr_B[122] = new JLabel("<html>Posso telefonarti alle otto di mattina?<html>");
+    IT_espr_B[123] = new JLabel("<html>Devo andare a scuola.<html>");
+    IT_espr_B[124] = new JLabel("<html>Ci vuole ancora un po' di sale sul sugo.<html>");
+    IT_espr_B[125] = new JLabel("<html>volerci<html>");
+    IT_espr_B[126] = new JLabel("<html>Odio i miei difetti.<html>");
+    IT_espr_B[127] = new JLabel("<html>Non sento più nessun affetto per te.<html>");
+    IT_espr_B[128] = new JLabel("<html>Mi potresti fare la cortesia di prendere il giornale quando torni?<html>");
+    IT_espr_B[129] = new JLabel("<html>Ti aiuterò a fare le pulizie molto volentieri.<html>");
+    IT_espr_B[130] = new JLabel("<html>Certo che voglio andare con te al cinema.<html>");
+    IT_espr_B[131] = new JLabel("<html>Ho bisogno del tuo aiuto.<html>");
+    IT_espr_B[132] = new JLabel("<html>Ho voglia di mangiare la merenda.<html>");
+    IT_espr_B[133] = new JLabel("<html>Come puoi spiegare il tuo comportamento scandaloso?<html>");
+    IT_espr_B[134] = new JLabel("<html>Mi pento di quello che ho fatto.<html>");
+    IT_espr_B[135] = new JLabel("<html>Sei offeso con me perché non sono venuto alla tua festa?<html>");
+    IT_espr_B[136] = new JLabel("<html>Spero che starai presto meglio.<html>");
+    IT_espr_B[137] = new JLabel("<html>Andrea perde spesso la pazienza, è molto nervoso.<html>");
+    IT_espr_B[138] = new JLabel("<html>Mia figlia pensa solo al suo aspetto fisico, trascorre molte ore davanti allo specchio.<html>");
+    IT_espr_B[139] = new JLabel("<html>Sono una persona di media statura.<html>");
+    IT_espr_B[140] = new JLabel("<html>Gianni è il più alto tra i suoi amici.<html>");
+    IT_espr_B[141] = new JLabel("<html>Pietro è tanto basso quanto Carla.<html>");
+    IT_espr_B[142] = new JLabel("<html>Questa attrice è molto bella. Non credo che abbia avuto un'operazione plastica.<html>");
+    IT_espr_B[143] = new JLabel("<html>Come mai un quadro così brutto costa 10 000 dollari!<html>");
+    IT_espr_B[144] = new JLabel("<html>Tutte le ragazze vogliono essere snelle come le modelle più famose.<html>");
+    IT_espr_B[145] = new JLabel("<html>Il suo gatto è molto grasso e mangia in continuazione.<html>");
+    IT_espr_B[146] = new JLabel("<html>Mio fratello ha dei capelli scuri, invece la sua ragazza ha dei capelli chiari.<html>");
+    IT_espr_B[147] = new JLabel("<html>Ho sempre voluto avere dei capelli ricci, purtroppo ho dei capelli lisci.<html>");
+    IT_espr_B[148] = new JLabel("<html>La sua ragazza ha gli occhi marroni e dei capelli neri.<html>");
+    IT_espr_B[149] = new JLabel("<html>Il mio nuovo fidanzato è molto attraente, è alto, ha il naso piccolo e gli occhi azzurri.<html>");
+    IT_espr_B[150] = new JLabel("<html>Suo nipote ha il naso all'insù e le labbra molto grandi.<html>");
+    IT_espr_B[151] = new JLabel("<html>Sofia è magra, eppure ha il viso rotondo.<html>");
+    IT_espr_B[152] = new JLabel("<html>Gina ha le gambe lunghe e formose, invece suo fratello ha le gambe corte e storte.<html>");
+    IT_espr_B[153] = new JLabel("<html>Dopo le vacanze avevo la pelle abbronzata.<html>");
+    IT_espr_B[154] = new JLabel("<html>Suo nipote assomiglia a lui. Ha perfino un neo sulla guancia, esattamente come suo nonno.<html>");
+    IT_espr_B[155] = new JLabel("<html>Quel ragazzo è forte come suo padre, anche se ha solo 13 anni.<html>");
+    IT_espr_B[156] = new JLabel("<html>Era un uomo di corporatura debole. Per questo motivo ero sorpreso quando ha detto che voleva diventare una guardia del corpo.<html>");
+    IT_espr_B[157] = new JLabel("<html>Il suo fidanzato è brutto come un rospo. Ma, sai come si dice: l'amore è cieco.<html>");
+    IT_espr_B[158] = new JLabel("<html>Con questa dieta diventerai magro come un chiodo.<html>");
+    IT_espr_B[159] = new JLabel("<html>Suo zio ha la barba e i baffi, per questo la piccola ha paura di lui.<html>");
+    IT_espr_B[160] = new JLabel("<html>Da un mese non mangio dolci. Sono a dieta.<html>");
+    IT_espr_B[161] = new JLabel("<html>Anche se segue una dieta, di tanto in tanto mangia i gelati.<html>");
+    IT_espr_B[162] = new JLabel("<html>Mi piace molto questo vestito. Quanto costa?<html>");
+    IT_espr_B[163] = new JLabel("<html>Mi dispiace signora, ma questo abbigliamento non è in vendita.<html>");
+    IT_espr_B[164] = new JLabel("<html>Un reparto con gli abiti femminili si trova in fondo al negozio.<html>");
+    IT_espr_B[165] = new JLabel("<html>Cerco abiti maschili di taglia 50. Vorrei comprare un regalo per mio padre.<html>");
+    IT_espr_B[166] = new JLabel("<html>Mi sono vestito in fretta e sono uscito di corsa di casa.<html>");
+    IT_espr_B[167] = new JLabel("<html>Di sera sono talmente stanco che mi svesto velocemente, faccio la doccia e vado al letto.<html>");
+    IT_espr_B[168] = new JLabel("<html>Sembra molto grassa in questo vestito a pois.<html>");
+    IT_espr_B[169] = new JLabel("<html>Cerco una camicia bianca a righe azzurre.<html>");
+    IT_espr_B[170] = new JLabel("<html>Questa cravatta a righe è molto elegante. Andrebbe bene con la tua camicia verde.<html>");
+    IT_espr_B[171] = new JLabel("<html>Ti stanno bene questi pantaloni.<html>");
+    IT_espr_B[172] = new JLabel("<html>Questo maglione giallo ti sta male. Scegli un altro colore.<html>");
+    IT_espr_B[173] = new JLabel("<html>Non mi piace indossare le calze. Penso di essere allergica ai sintetici.<html>");
+    IT_espr_B[174] = new JLabel("<html>Mettiti un cappotto! Fa freddo!<html>");
+    IT_espr_B[175] = new JLabel("<html>La tua borsa è sempre molto pesante. Cos'hai dentro?<html>");
+    IT_espr_B[176] = new JLabel("<html>Queste scarpe di cuoio sono molto care.<html>");
+    IT_espr_B[177] = new JLabel("<html>Questi calzini sono di lana. Li porto sempre d'inverno.<html>");
+    IT_espr_B[178] = new JLabel("<html>Di che cosa è fatta questa maglietta?<html>");
+    IT_espr_B[179] = new JLabel("<html>Ho comprato le lenzuola di cotone.<html>");
+    IT_espr_B[180] = new JLabel("<html>Ho trovato questa camicia a quadri in un negozio all'angolo.<html>");
+    IT_URL_B[1] = getClass().getResource("Ciao! Sono Andrea..wav");
+    IT_URL_B[2] = getClass().getResource("Ciao! Piacere di conoscerti..wav");
+    IT_URL_B[3] = getClass().getResource("Buongiorno! Piacere di conoscerla, signor Rossi..wav");
+    IT_URL_B[4] = getClass().getResource("Come ti chiami.wav");
+    IT_URL_B[5] = getClass().getResource("Mi chiamo Paolo..wav");
+    IT_URL_B[6] = getClass().getResource("Buonasera. Come state.wav");
+    IT_URL_B[7] = getClass().getResource("Buonanotte. A domani..wav");
+    IT_URL_B[8] = getClass().getResource("Buon viaggio. Le auguro un buon soggiorno a Roma..wav");
+    IT_URL_B[9] = getClass().getResource("Mi hanno dato un cordiale benvenuto..wav");
+    IT_URL_B[10] = getClass().getResource("Arrivederci, a presto..wav");
+    IT_URL_B[11] = getClass().getResource("Ti chiedo scusa per quello che ho fatto..wav");
+    IT_URL_B[12] = getClass().getResource("scusi.wav");
+    IT_URL_B[13] = getClass().getResource("Scusi del disturbo. Sei occupato.wav");
+    IT_URL_B[14] = getClass().getResource("Mi dispiace. Aspetti un attimo, per favore..wav");
+    IT_URL_B[15] = getClass().getResource("Avanti! Si accomodi!.wav");
+    IT_URL_B[16] = getClass().getResource("Piacere di conoscerla..wav");
+    IT_URL_B[17] = getClass().getResource("Cordiali saluti!.wav");
+    IT_URL_B[18] = getClass().getResource("Addio! Non voglio più vederti!.wav");
+    IT_URL_B[19] = getClass().getResource("peccato! che peccato!.wav");
+    IT_URL_B[20] = getClass().getResource("Peccato che devi già andare via..wav");
+    IT_URL_B[21] = getClass().getResource("Le presento la professoressa Gallini..wav");
+    IT_URL_B[22] = getClass().getResource("Sono lieto di conoscerla, Signora..wav");
+    IT_URL_B[23] = getClass().getResource("dare del Lei.wav");
+    IT_URL_B[24] = getClass().getResource("Anche se ci conosciamo già da due mesi, ci diamo del Lei..wav");
+    IT_URL_B[25] = getClass().getResource("Ho fatto conoscenza con la Signora Papini. è stata molto gentile nei miei confronti..wav");
+    IT_URL_B[26] = getClass().getResource("Abbiamo fatto amicizia sei anni fa, durante il soggiorno a Barcellona..wav");
+    IT_URL_B[27] = getClass().getResource("Ecco mio marito, Domenico..wav");
+    IT_URL_B[28] = getClass().getResource("Ci siamo già conosciuti.wav");
+    IT_URL_B[29] = getClass().getResource("Il mio nome è Maria, ma il mio cognome è Herz, è di origine tedesca..wav");
+    IT_URL_B[30] = getClass().getResource("Qual è il tuo indirizzo.wav");
+    IT_URL_B[31] = getClass().getResource("Abito a Varsavia in via Piękna 8, interno 25..wav");
+    IT_URL_B[32] = getClass().getResource("Mi hai chiesto di portarti questo libro..wav");
+    IT_URL_B[33] = getClass().getResource("Mi può aiutare Non ce la faccio con questa valigia pesante..wav");
+    IT_URL_B[34] = getClass().getResource("Occorre il tuo aiuto..wav");
+    IT_URL_B[35] = getClass().getResource("Dammi una mano, sono già disperata..wav");
+    IT_URL_B[36] = getClass().getResource("Le posso chiedere spiegazioni.wav");
+    IT_URL_B[37] = getClass().getResource("Questa situazione difficile richiede da noi molta pazienza..wav");
+    IT_URL_B[38] = getClass().getResource("richiesto.wav");
+    IT_URL_B[39] = getClass().getResource("Quali documenti sono richiesti.wav");
+    IT_URL_B[40] = getClass().getResource("Sono un po' stanco per via di questo lungo viaggio..wav");
+    IT_URL_B[41] = getClass().getResource("Secondo me questa opinione è sbagliata..wav");
+    IT_URL_B[42] = getClass().getResource("Preferisco il pesce alla carne..wav");
+    IT_URL_B[43] = getClass().getResource("Quali sono le sue preferenze riguardanti il viaggio.wav");
+    IT_URL_B[44] = getClass().getResource("Mi dia il suo passaporto, per favore..wav");
+    IT_URL_B[45] = getClass().getResource("Ti prego di non rivelare il mio segreto a nessuno!.wav");
+    IT_URL_B[46] = getClass().getResource("Ti ringrazio per il tuo aiuto. Ti sono molto grato..wav");
+    IT_URL_B[47] = getClass().getResource("Non c'è di che, è stato facile..wav");
+    IT_URL_B[48] = getClass().getResource("Mi piace questo ragazzo, è molto benfatto..wav");
+    IT_URL_B[49] = getClass().getResource("Non mi piace questo libro, è troppo noioso..wav");
+    IT_URL_B[50] = getClass().getResource("Sei d'accordo con la mia proposta.wav");
+    IT_URL_B[51] = getClass().getResource("Non sono d'accordo con la tua opinione..wav");
+    IT_URL_B[52] = getClass().getResource("avere torto.wav");
+    IT_URL_B[53] = getClass().getResource("è sicuro della sua opinione, anche se ha torto..wav");
+    IT_URL_B[54] = getClass().getResource("Ti potrei chiedere un favore.wav");
+    IT_URL_B[55] = getClass().getResource("Mi hai fatto un grande piacere con la tua visita..wav");
+    IT_URL_B[56] = getClass().getResource("Hai ragione, è stata colpa mia..wav");
+    IT_URL_B[57] = getClass().getResource("Non ci ha fatto nessuna proposta interessante..wav");
+    IT_URL_B[58] = getClass().getResource("Ha suggerito di fare visita a Maria..wav");
+    IT_URL_B[59] = getClass().getResource("Mi hai consigliato bene, è stato un regalo perfetto per il mio fidanzato!.wav");
+    IT_URL_B[60] = getClass().getResource("Ho cambiato idea. Non vado a teatro..wav");
+    IT_URL_B[61] = getClass().getResource("Ti invito a bere un caffè. Offro io..wav");
+    IT_URL_B[62] = getClass().getResource("Non ricordo dove ho messo il mio portafoglio..wav");
+    IT_URL_B[63] = getClass().getResource("Ho dimenticato di chiudere la porta a chiave..wav");
+    IT_URL_B[64] = getClass().getResource("Non ci ho fatto caso..wav");
+    IT_URL_B[65] = getClass().getResource("Vado pazzo per le commedie..wav");
+    IT_URL_B[66] = getClass().getResource("Non posso acconsentire alla tua richiesta..wav");
+    IT_URL_B[67] = getClass().getResource("Non importa..wav");
+    IT_URL_B[68] = getClass().getResource("Non m'importa niente! Fa' cosa vuoi!.wav");
+    IT_URL_B[69] = getClass().getResource("Sono uscito, perchè ero stanco..wav");
+    IT_URL_B[70] = getClass().getResource("però.wav");
+    IT_URL_B[71] = getClass().getResource("Capisco la tua situazione, però ho bisogno di ulteriori spiegazioni..wav");
+    IT_URL_B[72] = getClass().getResource("Che cosa fai nel tempo libero.wav");
+    IT_URL_B[73] = getClass().getResource("Che ora è.wav");
+    IT_URL_B[74] = getClass().getResource("Quanti minuti ci vogliono per cuocere gli spaghetti.wav");
+    IT_URL_B[75] = getClass().getResource("Non aspetto neanche un secondo di più!.wav");
+    IT_URL_B[76] = getClass().getResource("Quest'anno comincio a lavorare in banca..wav");
+    IT_URL_B[77] = getClass().getResource("Era un secolo di guerre e povertà..wav");
+    IT_URL_B[78] = getClass().getResource("Qual è la data di nascita di Pier Paolo Pasolini.wav");
+    IT_URL_B[79] = getClass().getResource("Quanti ne abbiamo oggi.wav");
+    IT_URL_B[80] = getClass().getResource("Oggi è il dieci gennaio 2015..wav");
+    IT_URL_B[81] = getClass().getResource("Ieri ho perso il treno, perchè la sveglia non ha suonato..wav");
+    IT_URL_B[82] = getClass().getResource("Domani sarà il primo luglio..wav");
+    IT_URL_B[83] = getClass().getResource("Ho dimenticato il mio orologio e non so che ora è..wav");
+    IT_URL_B[84] = getClass().getResource("A che ora suona la tua sveglia.wav");
+    IT_URL_B[85] = getClass().getResource("Ho dimenticato di mettere la sveglia e sono venuto in ufficio con un'ora di ritardo..wav");
+    IT_URL_B[86] = getClass().getResource("Sbrigati! A mezzogiorno usciamo di casa..wav");
+    IT_URL_B[87] = getClass().getResource("Non ho dormito fino a mezzanotte..wav");
+    IT_URL_B[88] = getClass().getResource("Finisco tra mezz'ora..wav");
+    IT_URL_B[89] = getClass().getResource("Questa volta sono venuto in tempo..wav");
+    IT_URL_B[90] = getClass().getResource("Ci incontriamo alle otto in punto..wav");
+    IT_URL_B[91] = getClass().getResource("è già tardi, dobbiamo andare a casa..wav");
+    IT_URL_B[92] = getClass().getResource("Non ti devi sbrigare, perchè è ancora presto..wav");
+    IT_URL_B[93] = getClass().getResource("Non preoccuparti! Torno subito da te..wav");
+    IT_URL_B[94] = getClass().getResource("Quanto tempo dura lo spettacolo.wav");
+    IT_URL_B[95] = getClass().getResource("Ho fretta e non posso parlare con te adesso..wav");
+    IT_URL_B[96] = getClass().getResource("Sbrigati o saremo in ritardo..wav");
+    IT_URL_B[97] = getClass().getResource("Sono arrivato in anticipo e ho dovuto aspettare venti minuti..wav");
+    IT_URL_B[98] = getClass().getResource("In aprile nevica raramente..wav");
+    IT_URL_B[99] = getClass().getResource("Spesso pranzo al ristorante..wav");
+    IT_URL_B[100] = getClass().getResource("Non faccio mai i lavori domestici, li fa mio marito..wav");
+    IT_URL_B[101] = getClass().getResource("Complimenti signora! Il suo bambino si comporta sempre bene a scuola..wav");
+    IT_URL_B[102] = getClass().getResource("L'anno scorso ho conseguito la patente di guida..wav");
+    IT_URL_B[103] = getClass().getResource("Il prossimo mese andiamo al concerto della mia cantante preferita..wav");
+    IT_URL_B[104] = getClass().getResource("Due anni fa siamo stati in Italia..wav");
+    IT_URL_B[105] = getClass().getResource("Quale stagione dell'anno ti piace di più.wav");
+    IT_URL_B[106] = getClass().getResource("Ho trascorso l'estate in montagna..wav");
+    IT_URL_B[107] = getClass().getResource("D'autunno piove spesso..wav");
+    IT_URL_B[108] = getClass().getResource("D'inverno mi piace sciare..wav");
+    IT_URL_B[109] = getClass().getResource("In primavera vado spesso al parco per ammirare la natura..wav");
+    IT_URL_B[110] = getClass().getResource("Stanotte tornerò a casa tardi..wav");
+    IT_URL_B[111] = getClass().getResource("Stamattina ho mangiato un panino ed ho bevuto un succo di frutta..wav");
+    IT_URL_B[112] = getClass().getResource("Il sabato è l'unico giorno della settimana in cui ho un po' di tempo libero..wav");
+    IT_URL_B[113] = getClass().getResource("Il mio mese preferito è giugno..wav");
+    IT_URL_B[114] = getClass().getResource("Sul suo viso non si poteva vedere nessuna emozione..wav");
+    IT_URL_B[115] = getClass().getResource("L'amicizia è un sentimento molto forte..wav");
+    IT_URL_B[116] = getClass().getResource("Può sentire questo profumo.wav");
+    IT_URL_B[117] = getClass().getResource("Hai udito questo rumore.wav");
+    IT_URL_B[118] = getClass().getResource("Abbiamo visto la tua macchina nuova, è molto moderna..wav");
+    IT_URL_B[119] = getClass().getResource("La mamma ama molto i suoi figli..wav");
+    IT_URL_B[120] = getClass().getResource("Io non so, come si chiami lei. Devi chiederlo ad un'altra persona..wav");
+    IT_URL_B[121] = getClass().getResource("Non voglio mangiare il brodo!.wav");
+    IT_URL_B[122] = getClass().getResource("Posso telefonarti alle otto di mattina.wav");
+    IT_URL_B[123] = getClass().getResource("Devo andare a scuola..wav");
+    IT_URL_B[124] = getClass().getResource("Ci vuole ancora un po' di sale sul sugo..wav");
+    IT_URL_B[125] = getClass().getResource("volerci.wav");
+    IT_URL_B[126] = getClass().getResource("Odio i miei difetti..wav");
+    IT_URL_B[127] = getClass().getResource("Non sento più nessun affetto per te..wav");
+    IT_URL_B[128] = getClass().getResource("Mi potresti fare la cortesia di prendere il giornale quando torni.wav");
+    IT_URL_B[129] = getClass().getResource("Ti aiuterò a fare le pulizie molto volentieri..wav");
+    IT_URL_B[130] = getClass().getResource("Certo che voglio andare con te al cinema..wav");
+    IT_URL_B[131] = getClass().getResource("Ho bisogno del tuo aiuto..wav");
+    IT_URL_B[132] = getClass().getResource("Ho voglia di mangiare la merenda..wav");
+    IT_URL_B[133] = getClass().getResource("Come puoi spiegare il tuo comportamento scandaloso.wav");
+    IT_URL_B[134] = getClass().getResource("Mi pento di quello che ho fatto..wav");
+    IT_URL_B[135] = getClass().getResource("Sei offeso con me perché non sono venuto alla tua festa.wav");
+    IT_URL_B[136] = getClass().getResource("Spero che starai presto meglio..wav");
+    IT_URL_B[137] = getClass().getResource("Andrea perde spesso la pazienza, è molto nervoso..wav");
+    IT_URL_B[138] = getClass().getResource("Mia figlia pensa solo al suo aspetto fisico, trascorre molte ore davanti allo specchio..wav");
+    IT_URL_B[139] = getClass().getResource("Sono una persona di media statura..wav");
+    IT_URL_B[140] = getClass().getResource("Gianni è il più alto tra i suoi amici..wav");
+    IT_URL_B[141] = getClass().getResource("Pietro è tanto basso quanto Carla..wav");
+    IT_URL_B[142] = getClass().getResource("Questa attrice è molto bella. Non credo che abbia avuto un'operazione plastica..wav");
+    IT_URL_B[143] = getClass().getResource("Come mai un quadro così brutto costa 10 000 dollari!.wav");
+    IT_URL_B[144] = getClass().getResource("Tutte le ragazze vogliono essere snelle come le modelle più famose..wav");
+    IT_URL_B[145] = getClass().getResource("Il suo gatto è molto grasso e mangia in continuazione..wav");
+    IT_URL_B[146] = getClass().getResource("Mio fratello ha dei capelli scuri, invece la sua ragazza ha dei capelli chiari..wav");
+    IT_URL_B[147] = getClass().getResource("Ho sempre voluto avere dei capelli ricci, purtroppo ho dei capelli lisci..wav");
+    IT_URL_B[148] = getClass().getResource("La sua ragazza ha gli occhi marroni e dei capelli neri..wav");
+    IT_URL_B[149] = getClass().getResource("Il mio nuovo fidanzato è molto attraente, è alto, ha il naso piccolo e gli occhi azzurri..wav");
+    IT_URL_B[150] = getClass().getResource("Suo nipote ha il naso all'insù e le labbra molto grandi..wav");
+    IT_URL_B[151] = getClass().getResource("Sofia è magra, eppure ha il viso rotondo..wav");
+    IT_URL_B[152] = getClass().getResource("Gina ha le gambe lunghe e formose, invece suo fratello ha le gambe corte e storte..wav");
+    IT_URL_B[153] = getClass().getResource("Dopo le vacanze avevo la pelle abbronzata..wav");
+    IT_URL_B[154] = getClass().getResource("Suo nipote assomiglia a lui. Ha perfino un neo sulla guancia, esattamente come suo nonno..wav");
+    IT_URL_B[155] = getClass().getResource("Quel ragazzo è forte come suo padre, anche se ha solo 13 anni..wav");
+    IT_URL_B[156] = getClass().getResource("Era un uomo di corporatura debole. Per questo motivo ero sorpreso quando ha detto che voleva diventare una guardia del corpo..wav");
+    IT_URL_B[157] = getClass().getResource("Il suo fidanzato è brutto come un rospo. Ma, sai come si dice l'amore è cieco..wav");
+    IT_URL_B[158] = getClass().getResource("Con questa dieta diventerai magro come un chiodo..wav");
+    IT_URL_B[159] = getClass().getResource("Suo zio ha la barba e i baffi, per questo la piccola ha paura di lui..wav");
+    IT_URL_B[160] = getClass().getResource("Da un mese non mangio dolci. Sono a dieta..wav");
+    IT_URL_B[161] = getClass().getResource("Anche se segue una dieta, di tanto in tanto mangia i gelati..wav");
+    IT_URL_B[162] = getClass().getResource("Mi piace molto questo vestito. Quanto costa.wav");
+    IT_URL_B[163] = getClass().getResource("Mi dispiace signora, ma questo abbigliamento non è in vendita..wav");
+    IT_URL_B[164] = getClass().getResource("Un reparto con gli abiti femminili si trova in fondo al negozio..wav");
+    IT_URL_B[165] = getClass().getResource("Cerco abiti maschili di taglia 50. Vorrei comprare un regalo per mio padre..wav");
+    IT_URL_B[166] = getClass().getResource("Mi sono vestito in fretta e sono uscito di corsa di casa..wav");
+    IT_URL_B[167] = getClass().getResource("Di sera sono talmente stanco che mi svesto velocemente, faccio la doccia e vado al letto..wav");
+    IT_URL_B[168] = getClass().getResource("Sembra molto grassa in questo vestito a pois..wav");
+    IT_URL_B[169] = getClass().getResource("Cerco una camicia bianca a righe azzurre..wav");
+    IT_URL_B[170] = getClass().getResource("Questa cravatta a righe è molto elegante. Andrebbe bene con la tua camicia verde..wav");
+    IT_URL_B[171] = getClass().getResource("Ti stanno bene questi pantaloni..wav");
+    IT_URL_B[172] = getClass().getResource("Questo maglione giallo ti sta male. Scegli un altro colore..wav");
+    IT_URL_B[173] = getClass().getResource("Non mi piace indossare le calze. Penso di essere allergica ai sintetici..wav");
+    IT_URL_B[174] = getClass().getResource("Mettiti un cappotto! Fa freddo!.wav");
+    IT_URL_B[175] = getClass().getResource("La tua borsa è sempre molto pesante. Cos'hai dentro.wav");
+    IT_URL_B[176] = getClass().getResource("Queste scarpe di cuoio sono molto care..wav");
+    IT_URL_B[177] = getClass().getResource("Questi calzini sono di lana. Li porto sempre d'inverno..wav");
+    IT_URL_B[178] = getClass().getResource("Di che cosa è fatta questa maglietta.wav");
+    IT_URL_B[179] = getClass().getResource("Ho comprato le lenzuola di cotone..wav");
+    IT_URL_B[180] = getClass().getResource("Ho trovato questa camicia a quadri in un negozio all'angolo..wav");
+    for (int i = 1; i <= 10; i++) {
+      page_B[1].add(PL_wyraz_B[i]);
+      page_B[1].add(IT_espr_B[i]);
+    }
+    for (int i = 11; i <= 20; i++) {
+      page_B[2].add(PL_wyraz_B[i]);
+      page_B[2].add(IT_espr_B[i]);
+    }
+    for (int i = 21; i <= 30; i++) {
+      page_B[3].add(PL_wyraz_B[i]);
+      page_B[3].add(IT_espr_B[i]);
+    }
+    for (int i = 31; i <= 40; i++) {
+      page_B[4].add(PL_wyraz_B[i]);
+      page_B[4].add(IT_espr_B[i]);
+    }
+    for (int i = 41; i <= 50; i++) {
+      page_B[5].add(PL_wyraz_B[i]);
+      page_B[5].add(IT_espr_B[i]);
+    }
+    for (int i = 51; i <= 60; i++) {
+      page_B[6].add(PL_wyraz_B[i]);
+      page_B[6].add(IT_espr_B[i]);
+    }
+    for (int i = 61; i <= 70; i++) {
+      page_B[7].add(PL_wyraz_B[i]);
+      page_B[7].add(IT_espr_B[i]);
+    }
+    for (int i = 71; i <= 80; i++) {
+      page_B[8].add(PL_wyraz_B[i]);
+      page_B[8].add(IT_espr_B[i]);
+    }
+    for (int i = 81; i <= 90; i++) {
+      page_B[9].add(PL_wyraz_B[i]);
+      page_B[9].add(IT_espr_B[i]);
+    }
+    for (int i = 91; i <= 100; i++) {
+      page_B[10].add(PL_wyraz_B[i]);
+      page_B[10].add(IT_espr_B[i]);
+    }
+    for (int i = 101; i <= 110; i++) {
+      page_B[11].add(PL_wyraz_B[i]);
+      page_B[11].add(IT_espr_B[i]);
+    }
+    for (int i = 111; i <= 120; i++) {
+      page_B[12].add(PL_wyraz_B[i]);
+      page_B[12].add(IT_espr_B[i]);
+    }
+    for (int i = 121; i <= 130; i++) {
+        page_B[13].add(PL_wyraz_B[i]);
+        page_B[13].add(IT_espr_B[i]);
+      }
+    for (int i = 131; i <= 140; i++) {
+        page_B[14].add(PL_wyraz_B[i]);
+        page_B[14].add(IT_espr_B[i]);
+      }
+    for (int i = 141; i <= 150; i++) {
+        page_B[15].add(PL_wyraz_B[i]);
+        page_B[15].add(IT_espr_B[i]);
+      }
+    for (int i = 151; i <= 160; i++) {
+        page_B[16].add(PL_wyraz_B[i]);
+        page_B[16].add(IT_espr_B[i]);
+      }
+    for (int i = 161; i <= 170; i++) {
+        page_B[17].add(PL_wyraz_B[i]);
+        page_B[17].add(IT_espr_B[i]);
+      }
+    for (int i = 171; i <= 180; i++) {
+        page_B[18].add(PL_wyraz_B[i]);
+        page_B[18].add(IT_espr_B[i]);
+      }
+    for (int i = 1; i <= 180; i++) {
+      PL_wyraz_B[i].addMouseListener(this);
+      IT_espr_B[i].addMouseListener(this);
+      PL_wyraz_B[i].setBorder(BorderFactory.createRaisedBevelBorder());
+      IT_espr_B[i].setBorder(BorderFactory.createRaisedBevelBorder());
+      PL_wyraz_B[i].setFont(pageDefaultFont_B);
+      IT_espr_B[i].setFont(pageDefaultFont_B);
+      PL_wyraz_B[i].setForeground(PL_color_B);
+      IT_espr_B[i].setForeground(IT_color_B);
+      PL_wyraz_B[i].setOpaque(true);
+      IT_espr_B[i].setOpaque(true);
+      PL_wyraz_B[i].setSize(500, 55);
+      IT_espr_B[i].setSize(500, 55);
+      PL_AIS_B[i] = AudioSystem.getAudioInputStream(PL_URL_B[i]);
+      PL_clip_B[i] = AudioSystem.getClip();
+      PL_clip_B[i].open(PL_AIS_B[i]);
+      IT_AIS_B[i] = AudioSystem.getAudioInputStream(IT_URL_B[i]);
+      IT_clip_B[i] = AudioSystem.getClip();
+      IT_clip_B[i].open(IT_AIS_B[i]);
+    }
+    for (int i = 1; i <= 180; i += 10) {
+      PL_wyraz_B[i].setLocation(140, 20);
+      IT_espr_B[i].setLocation(640, 20);
+    }
+    for (int i = 2; i <= 180; i += 10) {
+      PL_wyraz_B[i].setLocation(140, 75);
+      IT_espr_B[i].setLocation(640, 75);
+    }
+    for (int i = 3; i <= 180; i += 10) {
+      PL_wyraz_B[i].setLocation(140, 130);
+      IT_espr_B[i].setLocation(640, 130);
+    }
+    for (int i = 4; i <= 180; i += 10) {
+      PL_wyraz_B[i].setLocation(140, 185);
+      IT_espr_B[i].setLocation(640, 185);
+    }
+    for (int i = 5; i <= 180; i += 10) {
+      PL_wyraz_B[i].setLocation(140, 240);
+      IT_espr_B[i].setLocation(640, 240);
+    }
+    for (int i = 6; i <= 180; i += 10) {
+      PL_wyraz_B[i].setLocation(140, 295);
+      IT_espr_B[i].setLocation(640, 295);
+    }
+    for (int i = 7; i <= 180; i += 10) {
+      PL_wyraz_B[i].setLocation(140, 350);
+      IT_espr_B[i].setLocation(640, 350);
+    }
+    for (int i = 8; i <= 180; i += 10) {
+      PL_wyraz_B[i].setLocation(140, 405);
+      IT_espr_B[i].setLocation(640, 405);
+    }
+    for (int i = 9; i <= 180; i += 10) {
+      PL_wyraz_B[i].setLocation(140, 460);
+      IT_espr_B[i].setLocation(640, 460);
+    }
+    for (int i = 10; i <= 180; i += 10) {
+      PL_wyraz_B[i].setLocation(140, 515);
+      IT_espr_B[i].setLocation(640, 515);
+    }
+    PL_wyraz_B[24].setFont(pageDefaultFont_B_19);
+    PL_wyraz_B[138].setFont(pageDefaultFont_B_17);
+    PL_wyraz_B[149].setFont(pageDefaultFont_B_19);
+    PL_wyraz_B[152].setFont(pageDefaultFont_B_19);
+    PL_wyraz_B[154].setFont(pageDefaultFont_B_17);
+    PL_wyraz_B[156].setFont(pageDefaultFont_B_15);
+    PL_wyraz_B[157].setFont(pageDefaultFont_B_19);
+    PL_wyraz_B[165].setFont(pageDefaultFont_B_19);
+    PL_wyraz_B[167].setFont(pageDefaultFont_B_19);
+    PL_wyraz_B[170].setFont(pageDefaultFont_B_19);
+    IT_espr_B[25].setFont(pageDefaultFont_B_19);
+    IT_espr_B[85].setFont(pageDefaultFont_B_19);
+    IT_espr_B[112].setFont(pageDefaultFont_B_19);
+    IT_espr_B[138].setFont(pageDefaultFont_B_19);
+    IT_espr_B[149].setFont(pageDefaultFont_B_19);
+    IT_espr_B[152].setFont(pageDefaultFont_B_19);
+    IT_espr_B[154].setFont(pageDefaultFont_B_17);
+    IT_espr_B[156].setFont(pageDefaultFont_B_15);
+    IT_espr_B[157].setFont(pageDefaultFont_B_19);
+    IT_espr_B[167].setFont(pageDefaultFont_B_19);
+    IT_espr_B[170].setFont(pageDefaultFont_B_19);
+  }
+  public void pageNo() {
+    pageNo_A = new JComboBox < String > ();
+    comboBoxFont = new Font("Microsoft Sans Serif", Font.PLAIN, 25);
+    pageNo_A.addItemListener(new ItemListener() {
+      public void itemStateChanged(ItemEvent e) {
+        if (pageNo_A.getSelectedIndex() == 1) {
+          for (int i = 2; i < 100; i++) {
+            mainFrame.remove(page_A[i]);
+          }
+          mainFrame.add(page_A[1]);
+          mainFrame.revalidate();
+          mainFrame.repaint();
+        }
+        if (pageNo_A.getSelectedIndex() == 2) {
+          for (int i = 1; i < 100; i++) {
+            if (i == 2) {
+              continue;
+            }
+            mainFrame.remove(page_A[i]);
+          }
+          mainFrame.add(page_A[2]);
+          mainFrame.revalidate();
+          mainFrame.repaint();
+        }
+        if (pageNo_A.getSelectedIndex() == 3) {
+          for (int i = 1; i < 100; i++) {
+            if (i == 3) {
+              continue;
+            }
+            mainFrame.remove(page_A[i]);
+          }
+          mainFrame.add(page_A[3]);
+          mainFrame.revalidate();
+          mainFrame.repaint();
+        }
+        if (pageNo_A.getSelectedIndex() == 4) {
+          for (int i = 1; i < 100; i++) {
+            if (i == 4) {
+              continue;
+            }
+            mainFrame.remove(page_A[i]);
+          }
+          mainFrame.add(page_A[4]);
+          mainFrame.revalidate();
+          mainFrame.repaint();
+        }
+        if (pageNo_A.getSelectedIndex() == 5) {
+          for (int i = 1; i < 100; i++) {
+            if (i == 5) {
+              continue;
+            }
+            mainFrame.remove(page_A[i]);
+          }
+          mainFrame.add(page_A[5]);
+          mainFrame.revalidate();
+          mainFrame.repaint();
+        }
+        if (pageNo_A.getSelectedIndex() == 6) {
+          for (int i = 1; i < 100; i++) {
+            if (i == 6) {
+              continue;
+            }
+            mainFrame.remove(page_A[i]);
+          }
+          mainFrame.add(page_A[6]);
+          mainFrame.revalidate();
+          mainFrame.repaint();
+        }
+        if (pageNo_A.getSelectedIndex() == 7) {
+          for (int i = 1; i < 100; i++) {
+            if (i == 7) {
+              continue;
+            }
+            mainFrame.remove(page_A[i]);
+          }
+          mainFrame.add(page_A[7]);
+          mainFrame.revalidate();
+          mainFrame.repaint();
+        }
+        if (pageNo_A.getSelectedIndex() == 8) {
+          for (int i = 1; i < 100; i++) {
+            if (i == 8) {
+              continue;
+            }
+            mainFrame.remove(page_A[i]);
+          }
+          mainFrame.add(page_A[8]);
+          mainFrame.revalidate();
+          mainFrame.repaint();
+        }
+        if (pageNo_A.getSelectedIndex() == 9) {
+          for (int i = 1; i < 100; i++) {
+            if (i == 9) {
+              continue;
+            }
+            mainFrame.remove(page_A[i]);
+          }
+          mainFrame.add(page_A[9]);
+          mainFrame.revalidate();
+          mainFrame.repaint();
+        }
+        if (pageNo_A.getSelectedIndex() == 10) {
+          for (int i = 1; i < 100; i++) {
+            if (i == 10) {
+              continue;
+            }
+            mainFrame.remove(page_A[i]);
+          }
+          mainFrame.add(page_A[10]);
+          mainFrame.revalidate();
+          mainFrame.repaint();
+        }
+        if (pageNo_A.getSelectedIndex() == 11) {
+          for (int i = 1; i < 100; i++) {
+            if (i == 11) {
+              continue;
+            }
+            mainFrame.remove(page_A[i]);
+          }
+          mainFrame.add(page_A[11]);
+          mainFrame.revalidate();
+          mainFrame.repaint();
+        }
+        if (pageNo_A.getSelectedIndex() == 12) {
+          for (int i = 1; i < 100; i++) {
+            if (i == 12) {
+              continue;
+            }
+            mainFrame.remove(page_A[i]);
+          }
+          mainFrame.add(page_A[12]);
+          mainFrame.revalidate();
+          mainFrame.repaint();
+        }
+        if (pageNo_A.getSelectedIndex() == 13) {
+          for (int i = 1; i < 100; i++) {
+            if (i == 13) {
+              continue;
+            }
+            mainFrame.remove(page_A[i]);
+          }
+          mainFrame.add(page_A[13]);
+          mainFrame.revalidate();
+          mainFrame.repaint();
+        }
+        if (pageNo_A.getSelectedIndex() == 14) {
+          for (int i = 1; i < 100; i++) {
+            if (i == 14) {
+              continue;
+            }
+            mainFrame.remove(page_A[i]);
+          }
+          mainFrame.add(page_A[14]);
+          mainFrame.revalidate();
+          mainFrame.repaint();
+        }
+        if (pageNo_A.getSelectedIndex() == 15) {
+            for (int i = 1; i < 100; i++) {
+              if (i == 15) {
+                continue;
+              }
+              mainFrame.remove(page_A[i]);
+            }
+            mainFrame.add(page_A[15]);
+            mainFrame.revalidate();
+            mainFrame.repaint();
+          }
+        if (pageNo_A.getSelectedIndex() == 16) {
+            for (int i = 1; i < 100; i++) {
+              if (i == 16) {
+                continue;
+              }
+              mainFrame.remove(page_A[i]);
+            }
+            mainFrame.add(page_A[16]);
+            mainFrame.revalidate();
+            mainFrame.repaint();
+          }
+        if (pageNo_A.getSelectedIndex() == 17) {
+            for (int i = 1; i < 100; i++) {
+              if (i == 17) {
+                continue;
+              }
+              mainFrame.remove(page_A[i]);
+            }
+            mainFrame.add(page_A[17]);
+            mainFrame.revalidate();
+            mainFrame.repaint();
+          }
+      }
+    });
+    pageNo_A.addItem("WYBIERZ STRONĘ / SCEGLI UNA PAGINA");
+    pageNo_A.addItem("strona nr. 1 / pagina nr. 1");
+    pageNo_A.addItem("strona nr. 2 / pagina nr. 2");
+    pageNo_A.addItem("strona nr. 3 / pagina nr. 3");
+    pageNo_A.addItem("strona nr. 4 / pagina nr. 4");
+    pageNo_A.addItem("strona nr. 5 / pagina nr. 5");
+    pageNo_A.addItem("strona nr. 6 / pagina nr. 6");
+    pageNo_A.addItem("strona nr. 7 / pagina nr. 7");
+    pageNo_A.addItem("strona nr. 8 / pagina nr. 8");
+    pageNo_A.addItem("strona nr. 9 / pagina nr. 9");
+    pageNo_A.addItem("strona nr. 10 / pagina nr. 10");
+    pageNo_A.addItem("strona nr. 11 / pagina nr. 11");
+    pageNo_A.addItem("strona nr. 12 / pagina nr. 12");
+    pageNo_A.addItem("strona nr. 13 / pagina nr. 13");
+    pageNo_A.addItem("strona nr. 14 / pagina nr. 14");
+    pageNo_A.addItem("strona nr. 15 / pagina nr. 15");
+    pageNo_A.addItem("strona nr. 16 / pagina nr. 16");
+    pageNo_A.addItem("strona nr. 17 / pagina nr. 17");
+    pageNo_A.addItem("strona nr. 18 / pagina nr. 18");
+    pageNo_A.addItem("strona nr. 19 / pagina nr. 19");
+    pageNo_A.addItem("strona nr. 20 / pagina nr. 20");
+    pageNo_A.setFont(comboBoxFont);
+    pageNo_A.setSelectedIndex(1);
+    pageNo_B = new JComboBox < String > ();
+    pageNo_B.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        if (pageNo_B.getSelectedIndex() == 1) {
+          for (int i = 2; i < 100; i++) {
+            mainFrame.remove(page_B[i]);
+          }
+          mainFrame.add(page_B[1]);
+          mainFrame.revalidate();
+          mainFrame.repaint();
+        }
+        if (pageNo_B.getSelectedIndex() == 2) {
+          for (int i = 1; i < 100; i++) {
+            if (i == 2) {
+              continue;
+            }
+            mainFrame.remove(page_B[i]);
+          }
+          mainFrame.add(page_B[2]);
+          mainFrame.revalidate();
+          mainFrame.repaint();
+        }
+        if (pageNo_B.getSelectedIndex() == 3) {
+          for (int i = 1; i < 100; i++) {
+            if (i == 3) {
+              continue;
+            }
+            mainFrame.remove(page_B[i]);
+          }
+          mainFrame.add(page_B[3]);
+          mainFrame.revalidate();
+          mainFrame.repaint();
+        }
+        if (pageNo_B.getSelectedIndex() == 4) {
+          for (int i = 1; i < 100; i++) {
+            if (i == 4) {
+              continue;
+            }
+            mainFrame.remove(page_B[i]);
+          }
+          mainFrame.add(page_B[4]);
+          mainFrame.revalidate();
+          mainFrame.repaint();
+        }
+        if (pageNo_B.getSelectedIndex() == 5) {
+          for (int i = 1; i < 100; i++) {
+            if (i == 5) {
+              continue;
+            }
+            mainFrame.remove(page_B[i]);
+          }
+          mainFrame.add(page_B[5]);
+          mainFrame.revalidate();
+          mainFrame.repaint();
+        }
+        if (pageNo_B.getSelectedIndex() == 6) {
+          for (int i = 1; i < 100; i++) {
+            if (i == 6) {
+              continue;
+            }
+            mainFrame.remove(page_B[i]);
+          }
+          mainFrame.add(page_B[6]);
+          mainFrame.revalidate();
+          mainFrame.repaint();
+        }
+        if (pageNo_B.getSelectedIndex() == 7) {
+          for (int i = 1; i < 100; i++) {
+            if (i == 7) {
+              continue;
+            }
+            mainFrame.remove(page_B[i]);
+          }
+          mainFrame.add(page_B[7]);
+          mainFrame.revalidate();
+          mainFrame.repaint();
+        }
+        if (pageNo_B.getSelectedIndex() == 8) {
+          for (int i = 1; i < 100; i++) {
+            if (i == 8) {
+              continue;
+            }
+            mainFrame.remove(page_B[i]);
+          }
+          mainFrame.add(page_B[8]);
+          mainFrame.revalidate();
+          mainFrame.repaint();
+        }
+        if (pageNo_B.getSelectedIndex() == 9) {
+          for (int i = 1; i < 100; i++) {
+            if (i == 9) {
+              continue;
+            }
+            mainFrame.remove(page_B[i]);
+          }
+          mainFrame.add(page_B[9]);
+          mainFrame.revalidate();
+          mainFrame.repaint();
+        }
+        if (pageNo_B.getSelectedIndex() == 10) {
+          for (int i = 1; i < 100; i++) {
+            if (i == 10) {
+              continue;
+            }
+            mainFrame.remove(page_B[i]);
+          }
+          mainFrame.add(page_B[10]);
+          mainFrame.revalidate();
+          mainFrame.repaint();
+        }
+        if (pageNo_B.getSelectedIndex() == 11) {
+            for (int i = 1; i < 100; i++) {
+              if (i == 11) {
+                continue;
+              }
+              mainFrame.remove(page_B[i]);
+            }
+            mainFrame.add(page_B[11]);
+            mainFrame.revalidate();
+            mainFrame.repaint();
+          }
+          if (pageNo_B.getSelectedIndex() == 12) {
+            for (int i = 1; i < 100; i++) {
+              if (i == 12) {
+                continue;
+              }
+              mainFrame.remove(page_B[i]);
+            }
+            mainFrame.add(page_B[12]);
+            mainFrame.revalidate();
+            mainFrame.repaint();
+          }
+          if (pageNo_B.getSelectedIndex() == 13) {
+            for (int i = 1; i < 100; i++) {
+              if (i == 13) {
+                continue;
+              }
+              mainFrame.remove(page_B[i]);
+            }
+            mainFrame.add(page_B[13]);
+            mainFrame.revalidate();
+            mainFrame.repaint();
+          }
+          if (pageNo_B.getSelectedIndex() == 14) {
+            for (int i = 1; i < 100; i++) {
+              if (i == 14) {
+                continue;
+              }
+              mainFrame.remove(page_B[i]);
+            }
+            mainFrame.add(page_B[14]);
+            mainFrame.revalidate();
+            mainFrame.repaint();
+          }
+          if (pageNo_B.getSelectedIndex() == 15) {
+              for (int i = 1; i < 100; i++) {
+                if (i == 15) {
+                  continue;
+                }
+                mainFrame.remove(page_B[i]);
+              }
+              mainFrame.add(page_B[15]);
+              mainFrame.revalidate();
+              mainFrame.repaint();
+            }
+          if (pageNo_B.getSelectedIndex() == 16) {
+              for (int i = 1; i < 100; i++) {
+                if (i == 16) {
+                  continue;
+                }
+                mainFrame.remove(page_B[i]);
+              }
+              mainFrame.add(page_B[16]);
+              mainFrame.revalidate();
+              mainFrame.repaint();
+            }
+          if (pageNo_B.getSelectedIndex() == 17) {
+              for (int i = 1; i < 100; i++) {
+                if (i == 17) {
+                  continue;
+                }
+                mainFrame.remove(page_B[i]);
+              }
+              mainFrame.add(page_B[17]);
+              mainFrame.revalidate();
+              mainFrame.repaint();
+            }
+          if (pageNo_B.getSelectedIndex() == 18) {
+              for (int i = 1; i < 100; i++) {
+                if (i == 18) {
+                  continue;
+                }
+                mainFrame.remove(page_B[i]);
+              }
+              mainFrame.add(page_B[18]);
+              mainFrame.revalidate();
+              mainFrame.repaint();
+            }
+          if (pageNo_B.getSelectedIndex() == 19) {
+              for (int i = 1; i < 100; i++) {
+                if (i == 19) {
+                  continue;
+                }
+                mainFrame.remove(page_B[i]);
+              }
+              mainFrame.add(page_B[19]);
+              mainFrame.revalidate();
+              mainFrame.repaint();
+            }
+      }
+    });
+    pageNo_B.addItem("WYBIERZ STRONĘ / SCEGLI UNA PAGINA");
+    pageNo_B.addItem("strona nr. 1 / pagina nr. 1");
+    pageNo_B.addItem("strona nr. 2 / pagina nr. 2");
+    pageNo_B.addItem("strona nr. 3 / pagina nr. 3");
+    pageNo_B.addItem("strona nr. 4 / pagina nr. 4");
+    pageNo_B.addItem("strona nr. 5 / pagina nr. 5");
+    pageNo_B.addItem("strona nr. 6 / pagina nr. 6");
+    pageNo_B.addItem("strona nr. 7 / pagina nr. 7");
+    pageNo_B.addItem("strona nr. 8 / pagina nr. 8");
+    pageNo_B.addItem("strona nr. 9 / pagina nr. 9");
+    pageNo_B.addItem("strona nr. 10 / pagina nr. 10");
+    pageNo_B.addItem("strona nr. 11 / pagina nr. 11");
+    pageNo_B.addItem("strona nr. 12 / pagina nr. 12");
+    pageNo_B.addItem("strona nr. 13 / pagina nr. 13");
+    pageNo_B.addItem("strona nr. 14 / pagina nr. 14");
+    pageNo_B.addItem("strona nr. 15 / pagina nr. 15");
+    pageNo_B.addItem("strona nr. 16 / pagina nr. 16");
+    pageNo_B.addItem("strona nr. 17 / pagina nr. 17");
+    pageNo_B.addItem("strona nr. 18 / pagina nr. 18");
+    pageNo_B.addItem("strona nr. 19 / pagina nr. 19");
+    pageNo_B.addItem("strona nr. 20 / pagina nr. 20");
+    pageNo_B.addItem("strona nr. 21 / pagina nr. 21");
+    pageNo_B.addItem("strona nr. 22 / pagina nr. 22");
+    pageNo_B.addItem("strona nr. 23 / pagina nr. 23");
+    pageNo_B.addItem("strona nr. 24 / pagina nr. 24");
+    pageNo_B.addItem("strona nr. 25 / pagina nr. 25");
+    pageNo_B.addItem("strona nr. 26 / pagina nr. 26");
+    pageNo_B.addItem("strona nr. 27 / pagina nr. 27");
+    pageNo_B.addItem("strona nr. 28 / pagina nr. 28");
+    pageNo_B.addItem("strona nr. 29 / pagina nr. 29");
+    pageNo_B.addItem("strona nr. 30 / pagina nr. 30");
+    pageNo_B.addItem("strona nr. 31 / pagina nr. 31");
+    pageNo_B.addItem("strona nr. 32 / pagina nr. 32");
+    pageNo_B.addItem("strona nr. 33 / pagina nr. 33");
+    pageNo_B.addItem("strona nr. 34 / pagina nr. 34");
+    pageNo_B.addItem("strona nr. 35 / pagina nr. 35");
+    pageNo_B.addItem("strona nr. 36 / pagina nr. 36");
+    pageNo_B.addItem("strona nr. 37 / pagina nr. 37");
+    pageNo_B.addItem("strona nr. 38 / pagina nr. 38");
+    pageNo_B.addItem("strona nr. 39 / pagina nr. 39");
+    pageNo_B.addItem("strona nr. 40 / pagina nr. 40");
+    pageNo_B.addItem("strona nr. 41 / pagina nr. 41");
+    pageNo_B.addItem("strona nr. 42 / pagina nr. 42");
+    pageNo_B.addItem("strona nr. 43 / pagina nr. 43");
+    pageNo_B.addItem("strona nr. 44 / pagina nr. 44");
+    pageNo_B.addItem("strona nr. 45 / pagina nr. 45");
+    pageNo_B.addItem("strona nr. 46 / pagina nr. 46");
+    pageNo_B.setFont(comboBoxFont);
+    pageNo_B.setSelectedIndex(1);
+  }
+  public void swingUtilitiesUpdateComponentTreeUI() {
+    SwingUtilities.updateComponentTreeUI(mainFrame);
+    for (int i = 1; i < 100; i++) {
+      SwingUtilities.updateComponentTreeUI(page_A[i]);
+    }
+    for (int i = 1; i < 100; i++) {
+      SwingUtilities.updateComponentTreeUI(page_B[i]);
+    }
+  }
+}
